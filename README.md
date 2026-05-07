@@ -13,15 +13,17 @@
       text-align: center;
     }
 
+    /* 상단 HSK (하나만 유지) */
     h1 {
       color: #007BFF;
       margin: 20px 0;
+      font-size: 28px;
     }
 
-    /* 입력 영역 */
+    /* 입력 박스 */
     .input-box {
-      width: 90%;
-      max-width: 500px;
+      width: 95%;
+      max-width: 700px;
       margin: 0 auto;
       border: 1px solid #ccc;
       border-radius: 10px;
@@ -57,23 +59,23 @@
 
     /* 표 */
     .table-wrap {
-      width: 95%;
-      max-width: 600px;
-      margin: 20px auto;
-      overflow-x: auto;
+      width: 100%;
+      margin-top: 20px;
+      overflow-x: auto; /* 모바일 가로 스크롤 */
     }
 
     table {
       width: 100%;
+      min-width: 500px; /* 가로 넓게 */
       border-collapse: collapse;
       background: white;
-      min-width: 300px;
     }
 
     th, td {
       border: 1px solid #ddd;
       padding: 10px;
       font-size: 14px;
+      text-align: center;
     }
 
     th {
@@ -90,6 +92,7 @@
   <div class="input-box">
     <div class="row">
       <input id="hanjaInput" placeholder="한자 입력">
+      <input id="pinyinInput" placeholder="병음 입력">
       <input id="meaningInput" placeholder="뜻 입력">
     </div>
     <button class="add-btn" onclick="addWord()">추가</button>
@@ -114,23 +117,25 @@
 
     function addWord() {
       const hanja = document.getElementById("hanjaInput").value.trim();
+      const pinyin = document.getElementById("pinyinInput").value.trim();
       const meaning = document.getElementById("meaningInput").value.trim();
 
-      if (!hanja || !meaning) {
+      if (!hanja || !pinyin || !meaning) {
         alert("모두 입력하세요!");
         return;
       }
 
       const newWord = {
-        hanja: hanja,
-        pinyin: "-",   // 병음 제거
-        meaning: meaning
+        hanja,
+        pinyin,
+        meaning
       };
 
       words.push(newWord);
       localStorage.setItem("words", JSON.stringify(words));
 
       document.getElementById("hanjaInput").value = "";
+      document.getElementById("pinyinInput").value = "";
       document.getElementById("meaningInput").value = "";
 
       renderTable();

@@ -19,7 +19,7 @@
       font-size: 28px;
     }
 
-    /* 입력 박스 */
+    /* 입력 */
     .input-box {
       width: 95%;
       max-width: 700px;
@@ -56,18 +56,17 @@
       cursor: pointer;
     }
 
-    /* 표 */
+    /* 🔥 핵심: 스크롤 영역 */
     .table-wrap {
       width: 100%;
+      overflow-x: auto; /* 가로 스크롤 */
       margin-top: 20px;
-      overflow-x: auto;
     }
 
     table {
-      width: 100%;
       border-collapse: collapse;
       background: white;
-      table-layout: fixed;
+      min-width: 450px; /* 👉 삭제가 화면 밖으로 밀리게 하는 핵심 */
     }
 
     th, td {
@@ -75,7 +74,7 @@
       padding: 10px;
       font-size: 14px;
       text-align: center;
-      word-break: break-word;
+      white-space: nowrap;
     }
 
     th {
@@ -87,7 +86,7 @@
       background: #ff6b6b;
       color: white;
       border: none;
-      padding: 5px 8px;
+      padding: 5px 10px;
       border-radius: 5px;
       cursor: pointer;
     }

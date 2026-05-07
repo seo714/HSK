@@ -19,7 +19,7 @@
       font-size: 28px;
     }
 
-    /* 입력 */
+    /* 입력 박스 */
     .input-box {
       width: 95%;
       max-width: 700px;
@@ -56,18 +56,18 @@
       cursor: pointer;
     }
 
-    /* 🔥 스크롤 핵심 */
+    /* 표 */
     .table-wrap {
       width: 100%;
-      overflow-x: auto;   /* 가로 스크롤 */
       margin-top: 20px;
+      overflow-x: auto;
     }
 
     table {
+      width: 100%;
       border-collapse: collapse;
       background: white;
-      min-width: 600px; /* 👉 핵심: 옆으로 넘기게 만드는 역할 */
-      margin: 0 auto;
+      table-layout: fixed;
     }
 
     th, td {
@@ -75,7 +75,7 @@
       padding: 10px;
       font-size: 14px;
       text-align: center;
-      white-space: nowrap;
+      word-break: break-word;
     }
 
     th {
@@ -87,7 +87,7 @@
       background: #ff6b6b;
       color: white;
       border: none;
-      padding: 5px 10px;
+      padding: 5px 8px;
       border-radius: 5px;
       cursor: pointer;
     }

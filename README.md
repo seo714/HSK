@@ -13,7 +13,6 @@
       text-align: center;
     }
 
-    /* 상단 HSK (하나만 유지) */
     h1 {
       color: #007BFF;
       margin: 20px 0;
@@ -61,14 +60,14 @@
     .table-wrap {
       width: 100%;
       margin-top: 20px;
-      overflow-x: auto; /* 모바일 가로 스크롤 */
+      overflow-x: auto;
     }
 
     table {
       width: 100%;
-      min-width: 500px; /* 가로 넓게 */
       border-collapse: collapse;
       background: white;
+      table-layout: fixed;
     }
 
     th, td {
@@ -76,10 +75,21 @@
       padding: 10px;
       font-size: 14px;
       text-align: center;
+      word-break: break-word;
     }
 
     th {
       background: #f1f1f1;
+    }
+
+    /* 삭제 버튼 */
+    .del-btn {
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 5px 8px;
+      border-radius: 5px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -106,6 +116,7 @@
           <th>한자</th>
           <th>병음</th>
           <th>뜻</th>
+          <th>삭제</th>
         </tr>
       </thead>
       <tbody id="wordTable"></tbody>
@@ -125,13 +136,7 @@
         return;
       }
 
-      const newWord = {
-        hanja,
-        pinyin,
-        meaning
-      };
-
-      words.push(newWord);
+      words.push({ hanja, pinyin, meaning });
       localStorage.setItem("words", JSON.stringify(words));
 
       document.getElementById("hanjaInput").value = "";
@@ -141,17 +146,24 @@
       renderTable();
     }
 
+    function deleteWord(index) {
+      words.splice(index, 1);
+      localStorage.setItem("words", JSON.stringify(words));
+      renderTable();
+    }
+
     function renderTable() {
       const table = document.getElementById("wordTable");
       table.innerHTML = "";
 
-      words.forEach(word => {
+      words.forEach((word, index) => {
         const row = document.createElement("tr");
 
         row.innerHTML = `
           <td>${word.hanja}</td>
           <td>${word.pinyin}</td>
           <td>${word.meaning}</td>
+          <td><button class="del-btn" onclick="deleteWord(${index})">삭제</button></td>
         `;
 
         table.appendChild(row);

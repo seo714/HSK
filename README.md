@@ -83,10 +83,10 @@
     }
 
     /* 열 비율 */
-    th:nth-child(1), td:nth-child(1) { width: 25%; }
-    th:nth-child(2), td:nth-child(2) { width: 25%; }
+    th:nth-child(1), td:nth-child(1) { width: 30%; }
+    th:nth-child(2), td:nth-child(2) { width: 30%; }
     th:nth-child(3), td:nth-child(3) { width: 30%; }
-    th:nth-child(4), td:nth-child(4) { width: 20%; }
+    th:nth-child(4), td:nth-child(4) { width: 10%; }
 
     /* 삭제 버튼 */
     .del-btn {

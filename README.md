@@ -19,7 +19,7 @@
       font-size: 28px;
     }
 
-    /* 입력 */
+    /* 입력 박스 (패드 기준 중앙 정렬) */
     .input-box {
       width: 95%;
       max-width: 700px;
@@ -52,54 +52,76 @@
       cursor: pointer;
     }
 
-    /* 🔥 핵심 스크롤 영역 */
+    /* 🔥 핵심: 반응형 테이블 */
     .table-wrap {
       width: 100%;
+      margin-top: 20px;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
-      margin-top: 20px;
     }
 
     table {
       border-collapse: collapse;
       background: white;
 
-      /* 🔥 핵심: 화면보다 크게 */
-      min-width: 700px;
+      /* 🔥 패드 대응 핵심 */
+      width: 100%;
+      min-width: 650px;
+      margin: 0 auto;
     }
 
     th, td {
       border: 1px solid #ddd;
-      padding: 10px;
+      padding: 12px;
       font-size: 14px;
       text-align: center;
       white-space: nowrap;
     }
 
-    /* 각 칸 고정폭 */
-    th:nth-child(1),
-    td:nth-child(1) { width: 150px; }
-
-    th:nth-child(2),
-    td:nth-child(2) { width: 150px; }
-
-    th:nth-child(3),
-    td:nth-child(3) { width: 200px; }
-
-    th:nth-child(4),
-    td:nth-child(4) { width: 100px; }
-
     th {
       background: #f1f1f1;
     }
 
+    /* 열 비율 */
+    th:nth-child(1), td:nth-child(1) { width: 25%; }
+    th:nth-child(2), td:nth-child(2) { width: 25%; }
+    th:nth-child(3), td:nth-child(3) { width: 30%; }
+    th:nth-child(4), td:nth-child(4) { width: 20%; }
+
+    /* 삭제 버튼 */
     .del-btn {
       background: #ff6b6b;
       color: white;
       border: none;
-      padding: 5px 10px;
+      padding: 6px 10px;
       border-radius: 5px;
       cursor: pointer;
+    }
+
+    /* 📲 패드 이상 */
+    @media (min-width: 768px) {
+      .input-box {
+        width: 80%;
+      }
+
+      table {
+        min-width: 700px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+    }
+
+    /* 💻 데스크탑 */
+    @media (min-width: 1024px) {
+      .input-box {
+        width: 60%;
+      }
+
+      table {
+        min-width: 800px;
+      }
     }
   </style>
 </head>
@@ -108,7 +130,6 @@
 
   <h1>HSK</h1>
 
-  <!-- 입력 -->
   <div class="input-box">
     <div class="row">
       <input id="hanjaInput" placeholder="한자 입력">
@@ -118,7 +139,6 @@
     <button class="add-btn" onclick="addWord()">추가</button>
   </div>
 
-  <!-- 표 -->
   <div class="table-wrap">
     <table>
       <thead>

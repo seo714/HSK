@@ -5,45 +5,45 @@
   <title>HSK 단어장</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- 🔥 병음 라이브러리 -->
-  <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.14.0/dist/pinyin-pro.min.js"></script>
-
   <style>
     body {
       margin: 0;
-      font-family: Arial;
+      font-family: Arial, sans-serif;
       background: #f5f7fa;
       text-align: center;
     }
 
     h1 {
       color: #007BFF;
-      margin-top: 20px;
+      margin: 20px 0;
     }
 
+    /* 입력 영역 */
     .input-box {
-      width: 80%;
-      margin: 20px auto;
+      width: 90%;
+      max-width: 500px;
+      margin: 0 auto;
       border: 1px solid #ccc;
       border-radius: 10px;
       overflow: hidden;
+      background: white;
     }
 
     .row {
       display: flex;
+      flex-direction: column;
     }
 
     .row input {
-      flex: 1;
       padding: 12px;
       border: none;
       outline: none;
       font-size: 16px;
+      border-bottom: 1px solid #eee;
     }
 
-    .divider {
-      width: 1px;
-      background: #ccc;
+    .row input:last-child {
+      border-bottom: none;
     }
 
     .add-btn {
@@ -51,20 +51,29 @@
       padding: 12px;
       border: none;
       background: #cfe2ff;
-      cursor: pointer;
       font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* 표 */
+    .table-wrap {
+      width: 95%;
+      max-width: 600px;
+      margin: 20px auto;
+      overflow-x: auto;
     }
 
     table {
-      width: 90%;
-      margin: 20px auto;
+      width: 100%;
       border-collapse: collapse;
       background: white;
+      min-width: 300px;
     }
 
     th, td {
       border: 1px solid #ddd;
       padding: 10px;
+      font-size: 14px;
     }
 
     th {
@@ -77,32 +86,31 @@
 
   <h1>HSK</h1>
 
+  <!-- 입력 -->
   <div class="input-box">
     <div class="row">
-      <input id="hanjaInput" placeholder="한자 입력 (실시간 병음 자동)">
-      <div class="divider"></div>
+      <input id="hanjaInput" placeholder="한자 입력">
       <input id="meaningInput" placeholder="뜻 입력">
     </div>
     <button class="add-btn" onclick="addWord()">추가</button>
   </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>한자</th>
-        <th>병음</th>
-        <th>뜻</th>
-      </tr>
-    </thead>
-    <tbody id="wordTable"></tbody>
-  </table>
+  <!-- 표 -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>한자</th>
+          <th>병음</th>
+          <th>뜻</th>
+        </tr>
+      </thead>
+      <tbody id="wordTable"></tbody>
+    </table>
+  </div>
 
   <script>
     let words = JSON.parse(localStorage.getItem("words")) || [];
-
-    function getPinyin(text) {
-      return pinyinPro.pinyin(text, { toneType: "mark" });
-    }
 
     function addWord() {
       const hanja = document.getElementById("hanjaInput").value.trim();
@@ -113,12 +121,10 @@
         return;
       }
 
-      const pinyin = getPinyin(hanja);
-
       const newWord = {
-        hanja,
-        pinyin,
-        meaning
+        hanja: hanja,
+        pinyin: "-",   // 병음 제거
+        meaning: meaning
       };
 
       words.push(newWord);

@@ -43,10 +43,6 @@
       border-bottom: 1px solid #eee;
     }
 
-    .row input:last-child {
-      border-bottom: none;
-    }
-
     .add-btn {
       width: 100%;
       padding: 12px;
@@ -56,17 +52,20 @@
       cursor: pointer;
     }
 
-    /* 🔥 핵심: 스크롤 영역 */
+    /* 🔥 핵심 스크롤 영역 */
     .table-wrap {
       width: 100%;
-      overflow-x: auto; /* 가로 스크롤 */
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       margin-top: 20px;
     }
 
     table {
       border-collapse: collapse;
       background: white;
-      min-width: 450px; /* 👉 삭제가 화면 밖으로 밀리게 하는 핵심 */
+
+      /* 🔥 핵심: 화면보다 크게 */
+      min-width: 700px;
     }
 
     th, td {
@@ -77,11 +76,23 @@
       white-space: nowrap;
     }
 
+    /* 각 칸 고정폭 */
+    th:nth-child(1),
+    td:nth-child(1) { width: 150px; }
+
+    th:nth-child(2),
+    td:nth-child(2) { width: 150px; }
+
+    th:nth-child(3),
+    td:nth-child(3) { width: 200px; }
+
+    th:nth-child(4),
+    td:nth-child(4) { width: 100px; }
+
     th {
       background: #f1f1f1;
     }
 
-    /* 삭제 버튼 */
     .del-btn {
       background: #ff6b6b;
       color: white;

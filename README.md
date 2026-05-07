@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -10,15 +9,6 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f5f7fa;
-    }
-
-    /* 상단 */
-    .header {
-      width: 100%;
-      height: 80px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
 
     .header h1 {

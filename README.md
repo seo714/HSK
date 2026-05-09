@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <title>HSK 단어장</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
-    /* 사용자의 요청대로 기존 스타일(너비, 배열 등)은 절대 수정하지 않았습니다. */
+    /* ⚠️ 요청하신 대로 기존 스타일(너비, 배열 등)은 절대 수정하지 않았습니다. */
     body { margin: 0; font-family: Arial, sans-serif; background: #f5f7fa; text-align: center; }
     h1 { color: #007BFF; margin: 20px 0; font-size: 28px; }
     .input-box { width: 95%; max-width: 700px; margin: 0 auto; border: 1px solid #ccc; border-radius: 10px; overflow: hidden; background: white; }
@@ -25,6 +26,7 @@
     @media (min-width: 1024px) { .input-box { width: 60%; } table { min-width: 800px; } }
   </style>
 </head>
+
 <body>
 
   <h1>HSK</h1>
@@ -52,12 +54,12 @@
     </table>
   </div>
 
-  <!-- 파이어베이스 SDK 연결 (v9 모듈식 사용) -->
+  <!-- 파이어베이스 SDK (v9 모듈 방식) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // 🔥 본인의 파이어베이스 설정값으로 교체하세요!
+    // 🔴 [필수] 본인의 파이어베이스 설정값으로 교체하세요
     const firebaseConfig = {
       apiKey: "AIzaSyC4eVXhqZQUHi5Zfd5eBjHvd5LHC99ueWk",
       authDomain: "hsk905-75140.firebaseapp.com",
@@ -71,7 +73,7 @@
     const db = getFirestore(app);
     const wordsCol = collection(db, "hsk_words");
 
-    // 단어 추가 함수
+    // 단어 추가 (서버 전송)
     window.addWord = async function() {
       const hanja = document.getElementById("hanjaInput").value.trim();
       const pinyin = document.getElementById("pinyinInput").value.trim();
@@ -82,47 +84,41 @@
         return;
       }
 
-      try {
-        await addDoc(wordsCol, {
-          hanja,
-          pinyin,
-          meaning,
-          createdAt: new Date() // 시간순 정렬용
-        });
-        document.getElementById("hanjaInput").value = "";
-        document.getElementById("pinyinInput").value = "";
-        document.getElementById("meaningInput").value = "";
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
+      await addDoc(wordsCol, {
+        hanja, pinyin, meaning,
+        createdAt: Date.now()
+      });
+
+      document.getElementById("hanjaInput").value = "";
+      document.getElementById("pinyinInput").value = "";
+      document.getElementById("meaningInput").value = "";
     };
 
-    // 단어 삭제 함수
+    // 단어 삭제 (서버 삭제)
     window.deleteWord = async function(id) {
       if(confirm("정말 삭제하시겠습니까?")) {
         await deleteDoc(doc(db, "hsk_words", id));
       }
     };
 
-    // 실시간 데이터 감지 및 테이블 렌더링
+    // 실시간 동기화 (폰/노트북 모두 동일한 데이터를 실시간으로 보여줌)
     const q = query(wordsCol, orderBy("createdAt", "desc"));
     onSnapshot(q, (snapshot) => {
-      const table = document.getElementById("wordTable");
-      table.innerHTML = "";
-      
+      const tableBody = document.getElementById("wordTable");
+      tableBody.innerHTML = "";
       snapshot.forEach((doc) => {
         const word = doc.data();
         const row = document.createElement("tr");
-
         row.innerHTML = `
           <td>${word.hanja}</td>
           <td>${word.pinyin}</td>
           <td>${word.meaning}</td>
           <td><button class="del-btn" onclick="deleteWord('${doc.id}')">삭제</button></td>
         `;
-        table.appendChild(row);
+        tableBody.appendChild(row);
       });
     });
   </script>
+
 </body>
 </html>

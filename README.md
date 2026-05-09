@@ -59,13 +59,12 @@
 
     // 🔴 본인의 설정값으로 교체 (콘솔의 프로젝트 설정에서 복사)
     const firebaseConfig = {
-      apiKey: "본인의값",
-      authDomain: "본인의값",
-      databaseURL: "https://프로젝트ID.firebaseio.com", // Realtime DB는 이 주소가 꼭 필요합니다
-      projectId: "본인의값",
-      storageBucket: "본인의값",
-      messagingSenderId: "본인의값",
-      appId: "본인의값"
+      apiKey: "AIzaSyC4eVXhqZQUHi5Zfd5eBjHvd5LHC99ueWk",
+      authDomain: "hsk905-75140.firebaseapp.com",
+      projectId: "hsk905-75140",
+      storageBucket: "hsk905-75140.firebasestorage.app",
+      messagingSenderId: "113343319154",
+      appId: "1:113343319154:web:69a433ee99c4c67dc246eb"
     };
 
     const app = initializeApp(firebaseConfig);

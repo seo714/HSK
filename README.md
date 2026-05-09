@@ -52,18 +52,21 @@
       cursor: pointer;
     }
 
+    /* ✅ 테이블 핵심 레이아웃 */
     .table-wrap {
       width: 100%;
       margin-top: 20px;
+      display: flex;
+      justify-content: center;
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 10px;
     }
 
     table {
       border-collapse: collapse;
       background: white;
-      width: 100%;
-      min-width: 650px;
-      margin: 0 auto;
+      min-width: 700px; /* 🔥 스크롤 생성 핵심 */
     }
 
     th, td {
@@ -91,32 +94,6 @@
       border-radius: 5px;
       cursor: pointer;
     }
-
-    .table-wrap {
-      width: 100%;
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      padding: 10px;
-    }
-
-    table {
-      border-collapse: collapse;
-      background: white;
-      width: max-content;
-      min-width: 700px;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      padding: 12px;
-      font-size: 14px;
-      text-align: center;
-      white-space: nowrap;
-    }
-
   </style>
 </head>
 
@@ -159,7 +136,6 @@
     onSnapshot
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  // 🔥 Firebase 설정 (여기 본인 값 넣기)
   const firebaseConfig = {
     apiKey: "AIzaSyC4eVXhqZQUHi5Zfd5eBjHvd5LHC99ueWk",
     authDomain: "hsk905-75140.firebaseapp.com",
@@ -195,11 +171,7 @@
       return;
     }
 
-    await addDoc(colRef, {
-      hanja,
-      pinyin,
-      meaning
-    });
+    await addDoc(colRef, { hanja, pinyin, meaning });
 
     document.getElementById("hanjaInput").value = "";
     document.getElementById("pinyinInput").value = "";
@@ -211,7 +183,7 @@
     await deleteDoc(doc(db, "words", id));
   };
 
-  // 테이블 렌더
+  // 렌더
   function renderTable() {
     const table = document.getElementById("wordTable");
     table.innerHTML = "";
@@ -232,4 +204,4 @@
 </script>
 
 </body>
-</html>
+</html> 

@@ -64,7 +64,7 @@
       projectId: "hsk905-75140",
       storageBucket: "hsk905-75140.firebasestorage.app",
       messagingSenderId: "113343319154",
-      appId: "1:113343319154:web:1f55a4efd94ee8c2c246eb"
+      appId: "1:113343319154:web:69a433ee99c4c67dc246eb"
     };
 
     const app = initializeApp(firebaseConfig);

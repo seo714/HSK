@@ -5,7 +5,7 @@
   <title>HSK 단어장</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* 디자인/너비/배열 - 요청하신 대로 절대 수정하지 않았습니다 */
+    /* 요청하신 대로 기존 스타일/너비/배열은 1px도 수정하지 않았습니다. */
     body { margin: 0; font-family: Arial, sans-serif; background: #f5f7fa; text-align: center; }
     h1 { color: #007BFF; margin: 20px 0; font-size: 28px; }
     .input-box { width: 95%; max-width: 700px; margin: 0 auto; border: 1px solid #ccc; border-radius: 10px; overflow: hidden; background: white; }
@@ -35,7 +35,8 @@
       <input id="pinyinInput" placeholder="병음 입력">
       <input id="meaningInput" placeholder="뜻 입력">
     </div>
-    <button class="add-btn" onclick="addWord()">추가</button>
+    <!-- 버튼 클릭 시 addWord 함수 실행 -->
+    <button class="add-btn" id="submitBtn">추가</button>
   </div>
 
   <div class="table-wrap">
@@ -52,15 +53,15 @@
     </table>
   </div>
 
-  <!-- Realtime Database SDK 연결 -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    // 🔴 본인의 설정값으로 교체 (콘솔의 프로젝트 설정에서 복사)
+    // 🔴 중요: 이 부분을 본인의 Firebase 정보로 정확히 채워넣으세요!
     const firebaseConfig = {
       apiKey: "AIzaSyC4eVXhqZQUHi5Zfd5eBjHvd5LHC99ueWk",
       authDomain: "hsk905-75140.firebaseapp.com",
+      databaseURL: "https://console.firebase.google.com/project/hsk905-75140/database/hsk905-75140-default-rtdb/data/~2F?utm_source=chatgpt.com",
       projectId: "hsk905-75140",
       storageBucket: "hsk905-75140.firebasestorage.app",
       messagingSenderId: "113343319154",
@@ -71,8 +72,8 @@
     const db = getDatabase(app);
     const wordsRef = ref(db, 'words');
 
-    // 추가 기능
-    window.addWord = function() {
+    // 추가 기능 (onclick 대신 addEventListener를 사용하여 module 에러 방지)
+    document.getElementById('submitBtn').addEventListener('click', async () => {
       const hanja = document.getElementById("hanjaInput").value.trim();
       const pinyin = document.getElementById("pinyinInput").value.trim();
       const meaning = document.getElementById("meaningInput").value.trim();
@@ -82,33 +83,31 @@
         return;
       }
 
-      push(wordsRef, {
-        hanja: hanja,
-        pinyin: pinyin,
-        meaning: meaning
-      });
-
-      document.getElementById("hanjaInput").value = "";
-      document.getElementById("pinyinInput").value = "";
-      document.getElementById("meaningInput").value = "";
-    };
-
-    // 삭제 기능
-    window.deleteWord = function(id) {
-      if(confirm("정말 삭제하시겠습니까?")) {
-        const itemRef = ref(db, `words/${id}`);
-        remove(itemRef);
+      try {
+        await push(wordsRef, {
+          hanja: hanja,
+          pinyin: pinyin,
+          meaning: meaning,
+          date: Date.now()
+        });
+        
+        // 입력 칸 비우기
+        document.getElementById("hanjaInput").value = "";
+        document.getElementById("pinyinInput").value = "";
+        document.getElementById("meaningInput").value = "";
+      } catch (e) {
+        alert("데이터 저장 실패! 파이어베이스 설정(Rules)을 확인하세요.");
       }
-    };
+    });
 
-    // 실시간 동기화 (이게 핵심: 어떤 기기로 들어가도 똑같이 보임)
+    // 실시간 동기화 및 테이블 자동 생성
     onValue(wordsRef, (snapshot) => {
       const tableBody = document.getElementById("wordTable");
-      tableBody.innerHTML = "";
+      tableBody.innerHTML = ""; // 기존 테이블 비우기
       
       const data = snapshot.val();
       if (data) {
-        // 객체를 배열로 변환해서 화면에 출력
+        // 데이터가 있으면 반복문 돌려서 테이블에 추가
         Object.keys(data).forEach((id) => {
           const word = data[id];
           const row = document.createElement("tr");
@@ -116,9 +115,19 @@
             <td>${word.hanja}</td>
             <td>${word.pinyin}</td>
             <td>${word.meaning}</td>
-            <td><button class="del-btn" onclick="deleteWord('${id}')">삭제</button></td>
+            <td><button class="del-btn" data-id="${id}">삭제</button></td>
           `;
           tableBody.appendChild(row);
+        });
+
+        // 삭제 버튼 클릭 이벤트 연결
+        document.querySelectorAll('.del-btn').forEach(btn => {
+          btn.onclick = (e) => {
+            const id = e.target.getAttribute('data-id');
+            if(confirm("정말 삭제하시겠습니까?")) {
+              remove(ref(db, `words/${id}`));
+            }
+          };
         });
       }
     });

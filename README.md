@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ko">
 
 <head>
@@ -19,7 +20,7 @@
       font-size: 28px;
     }
 
-    /* 입력 박스 */
+    /* 입력 */
     .input-box {
       width: 95%;
       max-width: 700px;
@@ -52,7 +53,7 @@
       cursor: pointer;
     }
 
-    /* 🔥 테이블 영역 (가운데 정렬 핵심) */
+    /* 🔥 테이블 영역 (중앙 + 스크롤) */
     .table-wrap {
       width: 100%;
       margin-top: 20px;
@@ -66,13 +67,14 @@
     table {
       border-collapse: collapse;
       background: white;
+
       width: max-content;
-      min-width: 700px;
+      min-width: 100%; /* 🔥 모바일 잘림 방지 핵심 */
     }
 
     th, td {
       border: 1px solid #ddd;
-      padding: 14px 18px;   /* 🔥 핵심: 보기 좋은 여백 */
+      padding: 14px 18px;
       font-size: 14px;
       text-align: center;
       white-space: nowrap;
@@ -82,12 +84,12 @@
       background: #f1f1f1;
     }
 
-    /* 한자 / 병음 / 뜻 비율 */
+    /* 균형 */
     th:nth-child(1), td:nth-child(1) { width: 33%; }
     th:nth-child(2), td:nth-child(2) { width: 33%; }
     th:nth-child(3), td:nth-child(3) { width: 34%; }
 
-    /* 삭제 버튼 (스크롤해야 보임) */
+    /* 삭제 컬럼 (스크롤 영역) */
     th:nth-child(4), td:nth-child(4) {
       width: 80px;
     }

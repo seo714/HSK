@@ -91,6 +91,32 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
+    .table-wrap {
+      width: 100%;
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 10px;
+    }
+
+    table {
+      border-collapse: collapse;
+      background: white;
+      width: max-content;
+      min-width: 700px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      font-size: 14px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
   </style>
 </head>
 

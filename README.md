@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ko">
 
 <head>
@@ -20,6 +19,7 @@
       font-size: 28px;
     }
 
+    /* 입력 박스 */
     .input-box {
       width: 95%;
       max-width: 700px;
@@ -52,7 +52,7 @@
       cursor: pointer;
     }
 
-    /* ✅ 테이블 핵심 레이아웃 */
+    /* 🔥 테이블 영역 (가운데 정렬 핵심) */
     .table-wrap {
       width: 100%;
       margin-top: 20px;
@@ -66,12 +66,13 @@
     table {
       border-collapse: collapse;
       background: white;
-      min-width: 700px; /* 🔥 스크롤 생성 핵심 */
+      width: max-content;
+      min-width: 700px;
     }
 
     th, td {
       border: 1px solid #ddd;
-      padding: 12px;
+      padding: 14px 18px;   /* 🔥 핵심: 보기 좋은 여백 */
       font-size: 14px;
       text-align: center;
       white-space: nowrap;
@@ -81,10 +82,15 @@
       background: #f1f1f1;
     }
 
-    th:nth-child(1), td:nth-child(1) { width: 30%; }
-    th:nth-child(2), td:nth-child(2) { width: 30%; }
-    th:nth-child(3), td:nth-child(3) { width: 30%; }
-    th:nth-child(4), td:nth-child(4) { width: 10%; }
+    /* 한자 / 병음 / 뜻 비율 */
+    th:nth-child(1), td:nth-child(1) { width: 33%; }
+    th:nth-child(2), td:nth-child(2) { width: 33%; }
+    th:nth-child(3), td:nth-child(3) { width: 34%; }
+
+    /* 삭제 버튼 (스크롤해야 보임) */
+    th:nth-child(4), td:nth-child(4) {
+      width: 80px;
+    }
 
     .del-btn {
       background: #ff6b6b;
@@ -204,4 +210,4 @@
 </script>
 
 </body>
-</html> 
+</html>

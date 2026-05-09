@@ -19,7 +19,7 @@
       font-size: 28px;
     }
 
-    /* 입력 박스 (패드 기준 중앙 정렬) */
+    /* 입력 */
     .input-box {
       width: 95%;
       max-width: 700px;
@@ -52,21 +52,18 @@
       cursor: pointer;
     }
 
-    /* 🔥 핵심: 반응형 테이블 */
+    /* 테이블 */
     .table-wrap {
       width: 100%;
-      margin-top: 20px;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
+      margin-top: 20px;
     }
 
     table {
       border-collapse: collapse;
       background: white;
-
-      /* 🔥 패드 대응 핵심 */
-      width: 100%;
-      min-width: 650px;
+      min-width: 700px;
       margin: 0 auto;
     }
 
@@ -82,13 +79,6 @@
       background: #f1f1f1;
     }
 
-    /* 열 비율 */
-    th:nth-child(1), td:nth-child(1) { width: 30%; }
-    th:nth-child(2), td:nth-child(2) { width: 30%; }
-    th:nth-child(3), td:nth-child(3) { width: 30%; }
-    th:nth-child(4), td:nth-child(4) { width: 10%; }
-
-    /* 삭제 버튼 */
     .del-btn {
       background: #ff6b6b;
       color: white;
@@ -97,111 +87,131 @@
       border-radius: 5px;
       cursor: pointer;
     }
-
-    /* 📲 패드 이상 */
-    @media (min-width: 768px) {
-      .input-box {
-        width: 80%;
-      }
-
-      table {
-        min-width: 700px;
-      }
-
-      h1 {
-        font-size: 34px;
-      }
-    }
-
-    /* 💻 데스크탑 */
-    @media (min-width: 1024px) {
-      .input-box {
-        width: 60%;
-      }
-
-      table {
-        min-width: 800px;
-      }
-    }
   </style>
 </head>
 
 <body>
 
-  <h1>HSK</h1>
+<h1>HSK</h1>
 
-  <div class="input-box">
-    <div class="row">
-      <input id="hanjaInput" placeholder="한자 입력">
-      <input id="pinyinInput" placeholder="병음 입력">
-      <input id="meaningInput" placeholder="뜻 입력">
-    </div>
-    <button class="add-btn" onclick="addWord()">추가</button>
+<!-- 입력 -->
+<div class="input-box">
+  <div class="row">
+    <input id="hanjaInput" placeholder="한자 입력">
+    <input id="pinyinInput" placeholder="병음 입력">
+    <input id="meaningInput" placeholder="뜻 입력">
   </div>
+  <button class="add-btn" onclick="addWord()">추가</button>
+</div>
 
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>한자</th>
-          <th>병음</th>
-          <th>뜻</th>
-          <th>삭제</th>
-        </tr>
-      </thead>
-      <tbody id="wordTable"></tbody>
-    </table>
-  </div>
+<!-- 표 -->
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>한자</th>
+        <th>병음</th>
+        <th>뜻</th>
+        <th>삭제</th>
+      </tr>
+    </thead>
+    <tbody id="wordTable"></tbody>
+  </table>
+</div>
 
-  <script>
-    let words = JSON.parse(localStorage.getItem("words")) || [];
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    deleteDoc,
+    doc
+  } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 
-    function addWord() {
-      const hanja = document.getElementById("hanjaInput").value.trim();
-      const pinyin = document.getElementById("pinyinInput").value.trim();
-      const meaning = document.getElementById("meaningInput").value.trim();
+  const firebaseConfig = {
+    apiKey: "AIzaSyC4eVXhqZQUHi5Zfd5eBjHvd5LHC99ueWk",
+    authDomain: "hsk905-75140.firebaseapp.com",
+    projectId: "hsk905-75140",
+    storageBucket: "hsk905-75140.firebasestorage.app",
+    messagingSenderId: "113343319154",
+    appId: "1:113343319154:web:1f55a4efd94ee8c2c246eb"
+  };
 
-      if (!hanja || !pinyin || !meaning) {
-        alert("모두 입력하세요!");
-        return;
-      }
 
-      words.push({ hanja, pinyin, meaning });
-      localStorage.setItem("words", JSON.stringify(words));
 
-      document.getElementById("hanjaInput").value = "";
-      document.getElementById("pinyinInput").value = "";
-      document.getElementById("meaningInput").value = "";
 
-      renderTable();
+
+
+
+
+
+
+
+
+
+  
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // ➕ 추가
+  window.addWord = async function () {
+    const hanja = document.getElementById("hanjaInput").value.trim();
+    const pinyin = document.getElementById("pinyinInput").value.trim();
+    const meaning = document.getElementById("meaningInput").value.trim();
+
+    if (!hanja || !pinyin || !meaning) {
+      alert("모두 입력하세요!");
+      return;
     }
 
-    function deleteWord(index) {
-      words.splice(index, 1);
-      localStorage.setItem("words", JSON.stringify(words));
-      renderTable();
-    }
+    await addDoc(collection(db, "words"), {
+      hanja,
+      pinyin,
+      meaning
+    });
 
-    function renderTable() {
-      const table = document.getElementById("wordTable");
-      table.innerHTML = "";
+    document.getElementById("hanjaInput").value = "";
+    document.getElementById("pinyinInput").value = "";
+    document.getElementById("meaningInput").value = "";
 
-      words.forEach((word, index) => {
-        const row = document.createElement("tr");
+    loadWords();
+  };
 
-        row.innerHTML = `
-          <td>${word.hanja}</td>
-          <td>${word.pinyin}</td>
-          <td>${word.meaning}</td>
-          <td><button class="del-btn" onclick="deleteWord(${index})">삭제</button></td>
-        `;
+  // ❌ 삭제
+  window.deleteWord = async function (id) {
+    await deleteDoc(doc(db, "words", id));
+    loadWords();
+  };
 
-        table.appendChild(row);
-      });
-    }
+  // 📥 불러오기 (모든 기기 동일)
+  async function loadWords() {
+    const table = document.getElementById("wordTable");
+    table.innerHTML = "";
 
-    renderTable();
-  </script>
+    const snapshot = await getDocs(collection(db, "words"));
+
+    snapshot.forEach((item) => {
+      const data = item.data();
+
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${data.hanja}</td>
+        <td>${data.pinyin}</td>
+        <td>${data.meaning}</td>
+        <td><button class="del-btn" onclick="deleteWord('${item.id}')">삭제</button></td>
+      `;
+
+      table.appendChild(row);
+    });
+  }
+
+  loadWords();
+</script>
 
 </body>
 </html>

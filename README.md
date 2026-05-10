@@ -6,6 +6,9 @@
   <title>HSK 단어장</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- 병음 라이브러리 -->
+  <script src="https://unpkg.com/pinyin-pro"></script>
+
   <style>
     body {
       margin: 0;
@@ -20,7 +23,6 @@
       font-size: 28px;
     }
 
-    /* 입력 */
     .input-box {
       width: 95%;
       max-width: 700px;
@@ -53,7 +55,6 @@
       cursor: pointer;
     }
 
-    /* 🔥 테이블 영역 (중앙 + 스크롤) */
     .table-wrap {
       width: 100%;
       margin-top: 20px;
@@ -67,9 +68,8 @@
     table {
       border-collapse: collapse;
       background: white;
-
       width: max-content;
-      min-width: 100%; /* 🔥 모바일 잘림 방지 핵심 */
+      min-width: 100%;
     }
 
     th, td {
@@ -82,16 +82,6 @@
 
     th {
       background: #f1f1f1;
-    }
-
-    /* 균형 */
-    th:nth-child(1), td:nth-child(1) { width: 33%; }
-    th:nth-child(2), td:nth-child(2) { width: 33%; }
-    th:nth-child(3), td:nth-child(3) { width: 34%; }
-
-    /* 삭제 컬럼 (스크롤 영역) */
-    th:nth-child(4), td:nth-child(4) {
-      width: 80px;
     }
 
     .del-btn {
@@ -112,7 +102,6 @@
 <div class="input-box">
   <div class="row">
     <input id="hanjaInput" placeholder="한자 입력">
-    <input id="pinyinInput" placeholder="병음 입력">
     <input id="meaningInput" placeholder="뜻 입력">
   </div>
   <button class="add-btn" onclick="addWord()">추가</button>
@@ -132,7 +121,7 @@
   </table>
 </div>
 
-<!-- ================= FIREBASE ================= -->
+<!-- Firebase -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import {
@@ -159,7 +148,7 @@
 
   let words = [];
 
-  // 🔥 실시간 동기화
+  // 실시간 동기화
   onSnapshot(colRef, (snapshot) => {
     words = snapshot.docs.map(doc => ({
       id: doc.id,
@@ -168,21 +157,19 @@
     renderTable();
   });
 
-  // 추가
+  // 추가 (병음 저장 ❌)
   window.addWord = async function () {
     const hanja = document.getElementById("hanjaInput").value.trim();
-    const pinyin = document.getElementById("pinyinInput").value.trim();
     const meaning = document.getElementById("meaningInput").value.trim();
 
-    if (!hanja || !pinyin || !meaning) {
+    if (!hanja || !meaning) {
       alert("모두 입력하세요!");
       return;
     }
 
-    await addDoc(colRef, { hanja, pinyin, meaning });
+    await addDoc(colRef, { hanja, meaning });
 
     document.getElementById("hanjaInput").value = "";
-    document.getElementById("pinyinInput").value = "";
     document.getElementById("meaningInput").value = "";
   };
 
@@ -191,7 +178,7 @@
     await deleteDoc(doc(db, "words", id));
   };
 
-  // 렌더
+  // ⭐ 핵심: 렌더링 시 병음 자동 생성
   function renderTable() {
     const table = document.getElementById("wordTable");
     table.innerHTML = "";
@@ -199,9 +186,22 @@
     words.forEach((word) => {
       const row = document.createElement("tr");
 
+      let pinyin = "";
+
+      try {
+        if (window.pinyinPro && word.hanja) {
+          pinyin = window.pinyinPro.pinyin(word.hanja, {
+            toneType: "mark",
+            type: "array"
+          }).join(" ");
+        }
+      } catch (e) {
+        console.error("병음 변환 실패", e);
+      }
+
       row.innerHTML = `
         <td>${word.hanja}</td>
-        <td>${word.pinyin}</td>
+        <td>${pinyin}</td>
         <td>${word.meaning}</td>
         <td><button class="del-btn" onclick="deleteWord('${word.id}')">삭제</button></td>
       `;

@@ -92,6 +92,19 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
+    th:last-child,
+    td:last-child {
+      position: sticky;
+      right: 0;
+      background: white;
+      z-index: 2;
+    }
+
+    th:last-child {
+      background: #f1f1f1;
+      z-index: 3;
+    }
   </style>
 </head>
 

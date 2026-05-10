@@ -6,7 +6,6 @@
   <title>HSK 단어장</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- 병음 라이브러리 -->
   <script src="https://unpkg.com/pinyin-pro"></script>
 
   <style>
@@ -60,13 +59,14 @@
       margin-top: 20px;
       display: flex;
       justify-content: center;
+      overflow-x: auto;
+      padding: 10px;
     }
 
     table {
       border-collapse: collapse;
       background: white;
-      width: auto;
-      min-width: 400px;
+      width: 100%;
     }
 
     th, td {
@@ -83,6 +83,7 @@
 
     tbody tr {
       cursor: pointer;
+      user-select: none;
     }
 
     tbody tr:hover {
@@ -128,9 +129,12 @@
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
   const firebaseConfig = {
-    apiKey: "YOUR_KEY",
-    authDomain: "YOUR_DOMAIN",
-    projectId: "YOUR_ID",
+    apiKey: "AIzaSyC4eVXhqZQUHi5Zfd5eBjHvd5LHC99ueWk",
+    authDomain: "hsk905-75140.firebaseapp.com",
+    projectId: "hsk905-75140",
+    storageBucket: "hsk905-75140.firebasestorage.app",
+    messagingSenderId: "113343319154",
+    appId: "1:113343319154:web:69a433ee99c4c67dc246eb"
   };
 
   const app = initializeApp(firebaseConfig);
@@ -162,16 +166,16 @@
     document.getElementById("meaningInput").value = "";
   };
 
+  window.speakWord = function (text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "zh-CN";
+    speechSynthesis.cancel(); // 중복 방지
+    speechSynthesis.speak(utterance);
+  };
+
   window.deleteWord = async function (id) {
     await deleteDoc(doc(db, "words", id));
   };
-
-  // 🔊 TTS
-  function speak(text) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "zh-CN";
-    speechSynthesis.speak(utterance);
-  }
 
   function renderTable() {
     const table = document.getElementById("wordTable");
@@ -196,42 +200,35 @@
         <td>${word.meaning}</td>
       `;
 
-      // ⭐ 클릭 → 발음
+      // 🔊 일반 클릭 → 발음
       row.addEventListener("click", () => {
-        speak(word.hanja);
+        speakWord(word.hanja);
       });
 
-      // ⭐ 길게 누르면 삭제
+      // 🗑 길게 누르면 삭제
       let pressTimer;
 
       row.addEventListener("mousedown", () => {
         pressTimer = setTimeout(() => {
-          if (confirm("삭제할까요?")) {
+          if (confirm("이 단어를 삭제할까요?")) {
             deleteWord(word.id);
           }
-        }, 600);
+        }, 700); // 0.7초 누르면 실행
       });
 
-      row.addEventListener("mouseup", () => {
-        clearTimeout(pressTimer);
-      });
+      row.addEventListener("mouseup", () => clearTimeout(pressTimer));
+      row.addEventListener("mouseleave", () => clearTimeout(pressTimer));
 
-      row.addEventListener("mouseleave", () => {
-        clearTimeout(pressTimer);
-      });
-
-      // 모바일 대응
+      // 모바일 터치 대응
       row.addEventListener("touchstart", () => {
         pressTimer = setTimeout(() => {
-          if (confirm("삭제할까요?")) {
+          if (confirm("이 단어를 삭제할까요?")) {
             deleteWord(word.id);
           }
-        }, 600);
+        }, 700);
       });
 
-      row.addEventListener("touchend", () => {
-        clearTimeout(pressTimer);
-      });
+      row.addEventListener("touchend", () => clearTimeout(pressTimer));
 
       table.appendChild(row);
     });

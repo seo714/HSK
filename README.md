@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ko">
 
 <head>
@@ -53,26 +54,29 @@
       cursor: pointer;
     }
 
-    /* ✅ padding 기준 내부에 맞추기 */
+    /* ✅ 테이블 영역 */
     .table-wrap {
       width: 100%;
       margin-top: 20px;
+      display: block;        /* ⭐ flex 제거 */
       overflow-x: auto;
       padding: 10px;
     }
 
+    /* ✅ 테이블 꽉 채우기 */
     table {
       border-collapse: collapse;
       background: white;
-      width: 100%; /* ⭐ padding 내부 기준으로 꽉 */
+      width: 100%;          /* ⭐ 전체 채움 */
     }
 
+    /* ✅ 3등분 */
     th, td {
       border: 1px solid #ddd;
       padding: 14px 18px;
       font-size: 14px;
       text-align: center;
-      width: 33.33%; /* ⭐ 3등분 */
+      width: 33.33%;        /* ⭐ 핵심 */
       white-space: nowrap;
     }
 

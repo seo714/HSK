@@ -92,6 +92,29 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
+    /* ✅ 삭제 열 고정 */
+    th:last-child,
+    td:last-child {
+      position: sticky;
+      right: 0;
+      background: white;
+      z-index: 2;
+    }
+
+    th:last-child {
+      background: #f1f1f1;
+      z-index: 3;
+    }
+
+    /* ✅ 클릭 UX */
+    tbody tr {
+      cursor: pointer;
+    }
+
+    tbody tr:hover {
+      background: #f8f9ff;
+    }
   </style>
 </head>
 
@@ -148,7 +171,6 @@
 
   let words = [];
 
-  // 실시간 동기화
   onSnapshot(colRef, (snapshot) => {
     words = snapshot.docs.map(doc => ({
       id: doc.id,
@@ -157,7 +179,6 @@
     renderTable();
   });
 
-  // 추가 (병음 저장 ❌)
   window.addWord = async function () {
     const hanja = document.getElementById("hanjaInput").value.trim();
     const meaning = document.getElementById("meaningInput").value.trim();
@@ -173,12 +194,17 @@
     document.getElementById("meaningInput").value = "";
   };
 
-  // 삭제
   window.deleteWord = async function (id) {
     await deleteDoc(doc(db, "words", id));
   };
 
-  // ⭐ 핵심: 렌더링 시 병음 자동 생성
+  // 🔊 TTS
+  window.speakWord = function (text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "zh-CN";
+    speechSynthesis.speak(utterance);
+  };
+
   function renderTable() {
     const table = document.getElementById("wordTable");
     table.innerHTML = "";
@@ -187,7 +213,6 @@
       const row = document.createElement("tr");
 
       let pinyin = "";
-
       try {
         if (window.pinyinPro && word.hanja) {
           pinyin = window.pinyinPro.pinyin(word.hanja, {
@@ -195,9 +220,7 @@
             type: "array"
           }).join(" ");
         }
-      } catch (e) {
-        console.error("병음 변환 실패", e);
-      }
+      } catch (e) {}
 
       row.innerHTML = `
         <td>${word.hanja}</td>
@@ -205,6 +228,12 @@
         <td>${word.meaning}</td>
         <td><button class="del-btn" onclick="deleteWord('${word.id}')">삭제</button></td>
       `;
+
+      // ✅ 행 클릭 시 발음
+      row.addEventListener("click", (e) => {
+        if (e.target.tagName === "BUTTON") return;
+        speakWord(word.hanja);
+      });
 
       table.appendChild(row);
     });

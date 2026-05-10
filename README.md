@@ -54,29 +54,29 @@
       cursor: pointer;
     }
 
-    /* ✅ 가운데 정렬 + 모바일 대응 */
+    /* ✅ 테이블 영역 */
     .table-wrap {
       width: 100%;
       margin-top: 20px;
-      display: flex;
-      justify-content: center;
+      display: block;        /* ⭐ flex 제거 */
       overflow-x: auto;
       padding: 10px;
     }
 
-    /* ✅ 핵심: auto로 변경 */
+    /* ✅ 테이블 꽉 채우기 */
     table {
       border-collapse: collapse;
       background: white;
-      width: auto;
-      min-width: 300px;
+      width: 100%;          /* ⭐ 전체 채움 */
     }
 
+    /* ✅ 3등분 */
     th, td {
       border: 1px solid #ddd;
       padding: 14px 18px;
       font-size: 14px;
       text-align: center;
+      width: 33.33%;        /* ⭐ 핵심 */
       white-space: nowrap;
     }
 

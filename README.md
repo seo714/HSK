@@ -54,6 +54,7 @@
       cursor: pointer;
     }
 
+    /* ✅ 가운데 정렬 + 모바일 대응 */
     .table-wrap {
       width: 100%;
       margin-top: 20px;
@@ -63,10 +64,12 @@
       padding: 10px;
     }
 
+    /* ✅ 핵심: auto로 변경 */
     table {
       border-collapse: collapse;
       background: white;
-      width: 100%;
+      width: auto;
+      min-width: 300px;
     }
 
     th, td {
@@ -166,13 +169,15 @@
     document.getElementById("meaningInput").value = "";
   };
 
+  // 🔊 발음
   window.speakWord = function (text) {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "zh-CN";
-    speechSynthesis.cancel(); // 중복 방지
+    speechSynthesis.cancel();
     speechSynthesis.speak(utterance);
   };
 
+  // 삭제
   window.deleteWord = async function (id) {
     await deleteDoc(doc(db, "words", id));
   };
@@ -200,7 +205,7 @@
         <td>${word.meaning}</td>
       `;
 
-      // 🔊 일반 클릭 → 발음
+      // 🔊 클릭 → 발음
       row.addEventListener("click", () => {
         speakWord(word.hanja);
       });
@@ -213,13 +218,12 @@
           if (confirm("이 단어를 삭제할까요?")) {
             deleteWord(word.id);
           }
-        }, 700); // 0.7초 누르면 실행
+        }, 700);
       });
 
       row.addEventListener("mouseup", () => clearTimeout(pressTimer));
       row.addEventListener("mouseleave", () => clearTimeout(pressTimer));
 
-      // 모바일 터치 대응
       row.addEventListener("touchstart", () => {
         pressTimer = setTimeout(() => {
           if (confirm("이 단어를 삭제할까요?")) {

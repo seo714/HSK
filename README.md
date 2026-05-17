@@ -21,14 +21,20 @@
       margin: 20px 0;
     }
 
-    .input-box {
+    /* 입력창과 테이블의 최대 너비를 동일하게 맞추고 가운데 정렬 */
+    .input-box, .table-wrap {
       width: 100%;
       max-width: 700px;
       margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .input-box {
       background: white;
       border: 1px solid #ccc;
       border-radius: 10px;
       overflow: hidden;
+      margin-bottom: 20px; /* 테이블과의 간격 */
     }
 
     .row {
@@ -54,9 +60,10 @@
     }
 
     .table-wrap {
-      width: 100%;
-      margin-top: 20px;
-      padding: 0;
+      background: white; /* 테이블 배경을 흰색으로 채워 깔끔하게 만듦 */
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #ddd;
     }
 
     table {
@@ -76,22 +83,20 @@
       text-overflow: ellipsis;
     }
 
-    /* 번호 */
+    /* 각 열의 너비 비율 조정 */
     th:nth-child(1), td:nth-child(1) {
       width: 60px;
     }
 
-    /* 한자 */
     th:nth-child(2), td:nth-child(2) {
       width: 120px;
     }
 
-    /* 병음 */
     th:nth-child(3), td:nth-child(3) {
       width: 160px;
     }
 
-    /* ⭐ 핵심: 뜻 = 남는 공간 전부 */
+    /* 뜻 영역이 남는 공간을 꽉 채우도록 설정 */
     th:nth-child(4), td:nth-child(4) {
       width: auto;
     }

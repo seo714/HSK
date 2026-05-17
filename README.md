@@ -21,7 +21,6 @@
       text-align: center;
     }
 
-    /* 입력 영역만 가운데 */
     .input-box {
       width: 100%;
       max-width: 700px;
@@ -54,30 +53,37 @@
       cursor: pointer;
     }
 
-    /* 테이블 영역: 완전 풀폭 */
     .table-wrap {
       width: 100%;
       margin-top: 20px;
-      padding: 0; /* ⭐ 핵심: 좌우 여백 제거 */
+      padding: 0;
     }
 
     table {
       border-collapse: collapse;
       background: white;
       width: 100%;
+      table-layout: fixed; /* ⭐ 핵심: 남는 공간 제거 */
     }
 
     th, td {
       border: 1px solid #ddd;
-      padding: 14px 18px;
+      padding: 14px 10px;
       font-size: 14px;
       text-align: center;
-      width: 33.33%;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     th {
       background: #f1f1f1;
+    }
+
+    /* 번호 열 */
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 50px;
     }
 
     tbody tr {
@@ -107,6 +113,7 @@
   <table>
     <thead>
       <tr>
+        <th>번호</th>
         <th>한자</th>
         <th>병음</th>
         <th>뜻</th>
@@ -180,8 +187,7 @@
     const table = document.getElementById("wordTable");
     table.innerHTML = "";
 
-    words.forEach((word) => {
-      const row = document.createElement("tr");
+    words.forEach((word, index) => {
 
       let pinyin = "";
       try {
@@ -193,7 +199,10 @@
         }
       } catch (e) {}
 
+      const row = document.createElement("tr");
+
       row.innerHTML = `
+        <td>${index + 1}</td>
         <td>${word.hanja}</td>
         <td>${pinyin}</td>
         <td>${word.meaning}</td>

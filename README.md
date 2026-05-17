@@ -13,7 +13,10 @@
       padding: 0;
       font-family: Arial, sans-serif;
       background: #f5f7fa;
-      overflow-x: auto; /* 테이블이 길어질 때 화면 전체가 부드럽게 가로 스크롤 되도록 설정 */
+      box-sizing: border-box;
+      width: 100%;
+      /* body 전체 스크롤을 막아 상단 버튼과 타이틀이 가로로 흔들리지 않게 고정 */
+      overflow-x: hidden; 
     }
 
     h1 {
@@ -22,9 +25,9 @@
       margin: 20px 0;
     }
 
-    /* 상단 입력 박스와 추가 버튼: 화면 가로 폭(100vw)에 딱 맞추고 고정 */
+    /* 입력 박스와 추가 버튼: 기본 화면 너비(100%)에 맞춤 */
     .input-box {
-      width: 100vw; 
+      width: 100%;
       background: white;
       border-bottom: 1px solid #ccc;
       margin-bottom: 20px;
@@ -54,20 +57,29 @@
     }
 
     /* 
-      [완벽 수정] 테이블 영역: 추가 버튼(100vw)과 완전히 다르게 
-      가로 길이를 독자적으로 150% 늘려서 오른쪽으로 시원하게 툭 튀어나가게 만듭니다.
+      [핵심 수정] 테이블 감싸는 틀: 
+      1. 버튼보다 넓은 너비(150%)를 주어 양옆으로 튀어나오게 설정
+      2. margin: 0 auto; 와 좌우 음수 마진 조합으로 화면 '가운데 정렬' 완성
+      3. overflow-x: auto; 로 오직 이 테이블 영역 내부에서만 가로 스크롤 작동
     */
     .table-wrap {
       width: 150%; 
+      margin: 0 auto;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%); /* 화면 중앙에 완벽 배치 */
+      overflow-x: auto; /* 테이블 내부 가로 스크롤 기능 활성화 */
       background: white;
       border-top: 1px solid #ddd;
       border-bottom: 1px solid #ddd;
+      box-sizing: border-box;
+      -webkit-overflow-scrolling: touch; /* 패드/모바일에서 스크롤 부드럽게 */
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      table-layout: fixed; /* 10:30:30:30 고정 비율 강제 선언 */
+      table-layout: fixed; /* 10:30:30:30 비율 강제 유지 */
     }
 
     th, td {
@@ -75,25 +87,15 @@
       padding: 16px 8px;
       font-size: 15px;
       text-align: center;
+      box-sizing: border-box;
       word-break: break-all;
     }
 
-    /* 150%로 길어진 전체 테이블 안에서 요청하신 가로 비율 적용 */
-    th:nth-child(1), td:nth-child(1) {
-      width: 0.4%;  /* 번호 */
-    }
-
-    th:nth-child(2), td:nth-child(2) {
-      width: 10%; /* 한자 */
-    }
-
-    th:nth-child(3), td:nth-child(3) {
-      width: 10%; /* 병음 */
-    }
-
-    th:nth-child(4), td:nth-child(4) {
-      width: 10%; /* 뜻 */
-    }
+    /* 늘어난 전체 가로 폭 대비 요청하신 10:30:30:30 비율 적용 */
+    th:nth-child(1), td:nth-child(1) { width: 10%; } /* 번호 */
+    th:nth-child(2), td:nth-child(2) { width: 30%; } /* 한자 */
+    th:nth-child(3), td:nth-child(3) { width: 30%; } /* 병음 */
+    th:nth-child(4), td:nth-child(4) { width: 30%; } /* 뜻 */
 
     tbody tr {
       cursor: pointer;
@@ -109,7 +111,7 @@
 
 <h1>HSK</h1>
 
-<!-- 1. 패드 화면 크기에 딱 맞춘 입력창과 추가 버튼 -->
+<!-- 상단 입력 박스와 추가 버튼 (화면 너비 100% 고정) -->
 <div class="input-box">
   <div class="row">
     <input id="hanjaInput" placeholder="한자 입력">
@@ -118,7 +120,7 @@
   <button class="add-btn" onclick="addWord()">추가</button>
 </div>
 
-<!-- 2. 추가 버튼 크기 무시하고 오른쪽으로 훨씬 더 길게 뻗어 나가는 단어 테이블 -->
+<!-- 하단 테이블 (가로 너비 150%로 양옆 확장 + 가운데 정렬 + 내부 가로 스크롤) -->
 <div class="table-wrap">
   <table>
     <thead>

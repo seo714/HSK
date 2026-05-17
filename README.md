@@ -21,10 +21,9 @@
       margin: 20px 0;
     }
 
-    /* 패드 기준: 입력창과 테이블 전체 너비를 837.3px로 통일 및 중앙 정렬 */
+    /* 패드 기준: 정확히 837.3px로 고정 및 중앙 정렬 */
     .input-box, .table-wrap {
-      width: 100%;
-      max-width: 837.3px;
+      width: 837.3px;
       margin: 0 auto;
       box-sizing: border-box;
     }
@@ -59,6 +58,7 @@
       cursor: pointer;
     }
 
+    /* 오른쪽 여백을 완전히 없애기 위해 외곽선 마감 처리 */
     .table-wrap {
       background: white;
       border-radius: 10px;
@@ -69,7 +69,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      table-layout: fixed;
+      table-layout: fixed; /* 지정한 % 비율을 정확하게 강제 적용 */
     }
 
     th, td {
@@ -78,29 +78,24 @@
       font-size: 14px;
       text-align: center;
       box-sizing: border-box;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      word-break: break-all; /* 글자가 길어져도 삐져나가지 않고 줄바꿈되어 여백을 없앰 */
     }
 
-    /* 
-      기존 비율(60 : 120 : 160 : 나머지)을 837.3px 기준으로 완벽하게 분배 
-      뜻 영역(네 번째 열)이 늘어난 가로 길이를 모두 흡수하여 흰 여백을 채웁니다.
-    */
+    /* 요청하신 10 : 30 : 30 : 30 비율 완벽 적용 */
     th:nth-child(1), td:nth-child(1) {
-      width: 7.2%;  /* 번호 */
+      width: 10%;  /* 번호 */
     }
 
     th:nth-child(2), td:nth-child(2) {
-      width: 14.3%; /* 한자 */
+      width: 30%; /* 한자 */
     }
 
     th:nth-child(3), td:nth-child(3) {
-      width: 19.1%; /* 병음 */
+      width: 30%; /* 병음 */
     }
 
     th:nth-child(4), td:nth-child(4) {
-      width: 59.4%; /* 뜻 (남은 공간을 모두 차지하여 꽉 채움) */
+      width: 30%; /* 뜻 */
     }
 
     tbody tr {

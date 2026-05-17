@@ -21,10 +21,10 @@
       margin: 20px 0;
     }
 
-    /* 입력창과 테이블의 최대 너비를 동일하게 맞추고 가운데 정렬 */
+    /* 패드 기준: 입력창과 테이블 전체 너비를 837.3px로 통일 및 중앙 정렬 */
     .input-box, .table-wrap {
       width: 100%;
-      max-width: 700px;
+      max-width: 837.3px;
       margin: 0 auto;
       box-sizing: border-box;
     }
@@ -34,7 +34,7 @@
       border: 1px solid #ccc;
       border-radius: 10px;
       overflow: hidden;
-      margin-bottom: 20px; /* 테이블과의 간격 */
+      margin-bottom: 20px;
     }
 
     .row {
@@ -60,7 +60,7 @@
     }
 
     .table-wrap {
-      background: white; /* 테이블 배경을 흰색으로 채워 깔끔하게 만듦 */
+      background: white;
       border-radius: 10px;
       overflow: hidden;
       border: 1px solid #ddd;
@@ -83,22 +83,24 @@
       text-overflow: ellipsis;
     }
 
-    /* 각 열의 너비 비율 조정 */
+    /* 
+      기존 비율(60 : 120 : 160 : 나머지)을 837.3px 기준으로 완벽하게 분배 
+      뜻 영역(네 번째 열)이 늘어난 가로 길이를 모두 흡수하여 흰 여백을 채웁니다.
+    */
     th:nth-child(1), td:nth-child(1) {
-      width: 60px;
+      width: 7.2%;  /* 번호 */
     }
 
     th:nth-child(2), td:nth-child(2) {
-      width: 120px;
+      width: 14.3%; /* 한자 */
     }
 
     th:nth-child(3), td:nth-child(3) {
-      width: 160px;
+      width: 19.1%; /* 병음 */
     }
 
-    /* 뜻 영역이 남는 공간을 꽉 채우도록 설정 */
     th:nth-child(4), td:nth-child(4) {
-      width: auto;
+      width: 59.4%; /* 뜻 (남은 공간을 모두 차지하여 꽉 채움) */
     }
 
     tbody tr {

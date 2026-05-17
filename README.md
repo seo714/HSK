@@ -10,7 +10,7 @@
   <style>
     body {
       margin: 0;
-      padding: 20px; /* 양옆 레이아웃 여백 */
+      padding: 20px;
       font-family: Arial, sans-serif;
       background: #f5f7fa;
       box-sizing: border-box;
@@ -23,21 +23,23 @@
     }
 
     /* 
-      입력창과 테이블이 화면 오른쪽 끝까지 완전히 꽉 차도록 100% 설정 
-      픽셀(px) 제한을 삭제하여 패드 기기 가로 화면 전체를 여백 없이 채웁니다.
+      추가 버튼과 테이블의 가로 길이를 완벽히 일치시키기 위한 공통 컨테이너
+      화면 양옆 여백을 제외하고 100% 꽉 차게 늘어납니다.
     */
-    .input-box, .table-wrap {
+    .container {
       width: 100%;
       margin: 0 auto;
       box-sizing: border-box;
     }
 
     .input-box {
+      width: 100%;
       background: white;
       border: 1px solid #ccc;
       border-radius: 10px;
       overflow: hidden;
       margin-bottom: 20px;
+      box-sizing: border-box;
     }
 
     .row {
@@ -53,6 +55,7 @@
       border-bottom: 1px solid #eee;
     }
 
+    /* 추가 버튼의 너비를 부모(.input-box)에 100% 맞춤 */
     .add-btn {
       width: 100%;
       padding: 12px;
@@ -60,20 +63,23 @@
       background: #cfe2ff;
       font-size: 16px;
       cursor: pointer;
+      box-sizing: border-box;
     }
 
-    /* 테이블을 감싸는 영역도 오른쪽 끝까지 여백 없이 밀착 */
+    /* 테이블 감싸는 영역도 부모(.container) 너비에 100% 맞춤으로써 버튼과 우측 라인이 일치함 */
     .table-wrap {
+      width: 100%;
       background: white;
       border-radius: 10px;
       overflow: hidden;
       border: 1px solid #ddd;
+      box-sizing: border-box;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      table-layout: fixed; /* 10:30:30:30 비율을 전량 강제 적용 */
+      table-layout: fixed; /* 정확한 10:30:30:30 비율 보장 */
     }
 
     th, td {
@@ -85,7 +91,7 @@
       word-break: break-all;
     }
 
-    /* 요청하신 10 : 30 : 30 : 30 정확한 가로 비율 지정 */
+    /* 지정하신 10 : 30 : 30 : 30 가로 비율 유지 */
     th:nth-child(1), td:nth-child(1) {
       width: 10%;  /* 번호 */
     }
@@ -116,26 +122,31 @@
 
 <h1>HSK</h1>
 
-<div class="input-box">
-  <div class="row">
-    <input id="hanjaInput" placeholder="한자 입력">
-    <input id="meaningInput" placeholder="뜻 입력">
-  </div>
-  <button class="add-btn" onclick="addWord()">추가</button>
-</div>
+<!-- 입력창과 테이블을 하나의 컨테이너로 묶어 가로정렬 선을 칼같이 일치시킴 -->
+<div class="container">
 
-<div class="table-wrap">
-  <table>
-    <thead>
-      <tr>
-        <th>번호</th>
-        <th>한자</th>
-        <th>병음</th>
-        <th>뜻</th>
-      </tr>
-    </thead>
-    <tbody id="wordTable"></tbody>
-  </table>
+  <div class="input-box">
+    <div class="row">
+      <input id="hanjaInput" placeholder="한자 입력">
+      <input id="meaningInput" placeholder="뜻 입력">
+    </div>
+    <button class="add-btn" onclick="addWord()">추가</button>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>번호</th>
+          <th>한자</th>
+          <th>병음</th>
+          <th>뜻</th>
+        </tr>
+      </thead>
+      <tbody id="wordTable"></tbody>
+    </table>
+  </div>
+
 </div>
 
 <script type="module">

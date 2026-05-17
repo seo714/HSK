@@ -16,21 +16,19 @@
     }
 
     h1 {
+      text-align: center;
       color: #007BFF;
       margin: 20px 0;
-      font-size: 28px;
-      text-align: center;
     }
 
-    /* 입력 영역 */
     .input-box {
       width: 100%;
       max-width: 700px;
       margin: 0 auto;
+      background: white;
       border: 1px solid #ccc;
       border-radius: 10px;
       overflow: hidden;
-      background: white;
     }
 
     .row {
@@ -55,7 +53,6 @@
       cursor: pointer;
     }
 
-    /* 테이블 전체 꽉 */
     .table-wrap {
       width: 100%;
       margin-top: 20px;
@@ -63,10 +60,9 @@
     }
 
     table {
-      border-collapse: collapse;
-      background: white;
       width: 100%;
-      table-layout: fixed; /* ⭐ 핵심 */
+      border-collapse: collapse;
+      table-layout: fixed;
     }
 
     th, td {
@@ -74,39 +70,34 @@
       padding: 14px 8px;
       font-size: 14px;
       text-align: center;
-      box-sizing: border-box; /* ⭐ 핵심 */
-      white-space: nowrap;
+      box-sizing: border-box;
       overflow: hidden;
+      white-space: nowrap;
       text-overflow: ellipsis;
     }
 
-    /* ⭐ 10% */
-    th:nth-child(1),
-    td:nth-child(1) {
-      width: 10%;
+    /* 번호 */
+    th:nth-child(1), td:nth-child(1) {
+      width: 60px;
     }
 
-    /* ⭐ 30% */
-    th:nth-child(2),
-    td:nth-child(2) {
-      width: 30%;
+    /* 한자 */
+    th:nth-child(2), td:nth-child(2) {
+      width: 120px;
     }
 
-    /* ⭐ 30% */
-    th:nth-child(3),
-    td:nth-child(3) {
-      width: 30%;
+    /* 병음 */
+    th:nth-child(3), td:nth-child(3) {
+      width: 160px;
     }
 
-    /* ⭐ 30% */
-    th:nth-child(4),
-    td:nth-child(4) {
-      width: 30%;
+    /* ⭐ 핵심: 뜻 = 남는 공간 전부 */
+    th:nth-child(4), td:nth-child(4) {
+      width: auto;
     }
 
     tbody tr {
       cursor: pointer;
-      user-select: none;
     }
 
     tbody tr:hover {
@@ -234,23 +225,17 @@
 
       row.addEventListener("mousedown", () => {
         pressTimer = setTimeout(() => {
-          if (confirm("이 단어를 삭제할까요?")) {
-            deleteWord(word.id);
-          }
+          if (confirm("삭제할까요?")) deleteWord(word.id);
         }, 700);
       });
 
       row.addEventListener("mouseup", () => clearTimeout(pressTimer));
       row.addEventListener("mouseleave", () => clearTimeout(pressTimer));
-
       row.addEventListener("touchstart", () => {
         pressTimer = setTimeout(() => {
-          if (confirm("이 단어를 삭제할까요?")) {
-            deleteWord(word.id);
-          }
+          if (confirm("삭제할까요?")) deleteWord(word.id);
         }, 700);
       });
-
       row.addEventListener("touchend", () => clearTimeout(pressTimer));
 
       table.appendChild(row);

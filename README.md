@@ -10,6 +10,7 @@
   <style>
     body {
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
       background: #f5f7fa;
     }
@@ -21,6 +22,7 @@
       text-align: center;
     }
 
+    /* 입력 영역 */
     .input-box {
       width: 100%;
       max-width: 700px;
@@ -53,6 +55,7 @@
       cursor: pointer;
     }
 
+    /* 테이블 전체 꽉 */
     .table-wrap {
       width: 100%;
       margin-top: 20px;
@@ -63,27 +66,42 @@
       border-collapse: collapse;
       background: white;
       width: 100%;
-      table-layout: fixed; /* ⭐ 핵심: 남는 공간 제거 */
+      table-layout: fixed; /* ⭐ 핵심 */
     }
 
     th, td {
       border: 1px solid #ddd;
-      padding: 14px 10px;
+      padding: 14px 8px;
       font-size: 14px;
       text-align: center;
+      box-sizing: border-box; /* ⭐ 핵심 */
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    th {
-      background: #f1f1f1;
-    }
-
-    /* 번호 열 */
+    /* ⭐ 10% */
     th:nth-child(1),
     td:nth-child(1) {
-      width: 50px;
+      width: 10%;
+    }
+
+    /* ⭐ 30% */
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 30%;
+    }
+
+    /* ⭐ 30% */
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 30%;
+    }
+
+    /* ⭐ 30% */
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 30%;
     }
 
     tbody tr {

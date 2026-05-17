@@ -10,9 +10,10 @@
   <style>
     body {
       margin: 0;
-      padding: 0;
+      padding: 20px; /* 양옆 레이아웃 여백 */
       font-family: Arial, sans-serif;
       background: #f5f7fa;
+      box-sizing: border-box;
     }
 
     h1 {
@@ -21,9 +22,12 @@
       margin: 20px 0;
     }
 
-    /* 패드 기준: 정확히 837.3px로 고정 및 중앙 정렬 */
+    /* 
+      입력창과 테이블이 화면 오른쪽 끝까지 완전히 꽉 차도록 100% 설정 
+      픽셀(px) 제한을 삭제하여 패드 기기 가로 화면 전체를 여백 없이 채웁니다.
+    */
     .input-box, .table-wrap {
-      width: 837.3px;
+      width: 100%;
       margin: 0 auto;
       box-sizing: border-box;
     }
@@ -58,7 +62,7 @@
       cursor: pointer;
     }
 
-    /* 오른쪽 여백을 완전히 없애기 위해 외곽선 마감 처리 */
+    /* 테이블을 감싸는 영역도 오른쪽 끝까지 여백 없이 밀착 */
     .table-wrap {
       background: white;
       border-radius: 10px;
@@ -69,7 +73,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      table-layout: fixed; /* 지정한 % 비율을 정확하게 강제 적용 */
+      table-layout: fixed; /* 10:30:30:30 비율을 전량 강제 적용 */
     }
 
     th, td {
@@ -78,10 +82,10 @@
       font-size: 14px;
       text-align: center;
       box-sizing: border-box;
-      word-break: break-all; /* 글자가 길어져도 삐져나가지 않고 줄바꿈되어 여백을 없앰 */
+      word-break: break-all;
     }
 
-    /* 요청하신 10 : 30 : 30 : 30 비율 완벽 적용 */
+    /* 요청하신 10 : 30 : 30 : 30 정확한 가로 비율 지정 */
     th:nth-child(1), td:nth-child(1) {
       width: 10%;  /* 번호 */
     }

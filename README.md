@@ -8,10 +8,6 @@
   <script src="https://unpkg.com/pinyin-pro"></script>
 
   <style>
-    /* 
-      [핵심 수정] body의 여백(margin, padding)을 완전히 0으로 밀어버려서
-      화면 오른쪽에 개미 한 마리 지나갈 틈도 없이 여백을 100% 박멸합니다.
-    */
     body {
       margin: 0;
       padding: 0;
@@ -27,19 +23,23 @@
       margin: 20px 0;
     }
 
-    /* 화면 전체를 여백 없이 꽉 채우는 절대 틀 */
+    /* 
+      전체 컨테이너: 테이블이 화면보다 길어질 때 
+      오른쪽 레이아웃이 깨지지 않고 가로 스크롤이 되도록 방어해 줍니다.
+    */
     .container {
       width: 100%;
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      overflow-x: auto; 
     }
 
-    /* 입력 박스도 화면 끝에서 끝까지 100% */
+    /* 입력 박스 및 추가 버튼: 화면 가로 너비(100%)를 유지 */
     .input-box {
       width: 100%;
       background: white;
-      border-bottom: 1px solid #ccc; /* 아래쪽만 경계선 처리 */
+      border-bottom: 1px solid #ccc;
       margin-bottom: 20px;
       box-sizing: border-box;
     }
@@ -50,14 +50,13 @@
     }
 
     .row input {
-      padding: 16px; /* 패드에서 터치하기 편하게 패딩 확대 */
+      padding: 16px;
       border: none;
       outline: none;
       font-size: 16px;
       border-bottom: 1px solid #eee;
     }
 
-    /* 추가 버튼 가로 길이를 화면 전체(100%)로 확장 */
     .add-btn {
       width: 100%;
       padding: 16px;
@@ -69,11 +68,11 @@
     }
 
     /* 
-      [핵심 수정] 테이블 영역 역시 추가 버튼과 완벽하게 똑같이 
-      오른쪽 끝까지 한 치의 오차도 없이 100% 완전히 밀착시킵니다.
+      [최종 반영] 테이블 영역을 추가 버튼(100%)보다 가로로 더 길게 늘림 (120%)
+      더 길게 늘리고 싶으시다면 이 숫자를 130%, 150% 등으로 키우시면 됩니다.
     */
     .table-wrap {
-      width: 100%;
+      width: 120%; 
       background: white;
       box-sizing: border-box;
       border-top: 1px solid #ddd;
@@ -83,36 +82,33 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      table-layout: fixed; /* 브라우저가 멋대로 너비 안 바꾸고 10:30:30:30 비율을 칼같이 강제함 */
+      table-layout: fixed; /* 설정한 10:30:30:30 비율을 무조건 강제 고정 */
     }
 
     th, td {
       border: 1px solid #ddd;
-      padding: 16px 8px; /* 위아래 시원하게 늘림 */
+      padding: 16px 8px;
       font-size: 15px;
       text-align: center;
       box-sizing: border-box;
-      word-break: break-all; /* 글자가 길어져도 오른쪽 여백을 깨뜨리지 않고 밑으로 자동 줄바꿈 */
+      word-break: break-all;
     }
 
-    /* 
-      최대한으로 늘린 가로 전체 길이(100%) 중에서
-      정확하게 10% : 30% : 30% : 30% 공간을 차지하도록 분배
-    */
+    /* 늘어난 테이블 가로 길이 안에서 요청하신 비율 완벽 적용 */
     th:nth-child(1), td:nth-child(1) {
-      width: 0.4%;  /* 번호 열 */
+      width: 10%;  /* 번호 열 */
     }
 
     th:nth-child(2), td:nth-child(2) {
-      width: 10%; /* 한자 열 */
+      width: 30%; /* 한자 열 */
     }
 
     th:nth-child(3), td:nth-child(3) {
-      width: 10%; /* 병음 열 */
+      width: 30%; /* 병음 열 */
     }
 
     th:nth-child(4), td:nth-child(4) {
-      width: 10%; /* 뜻 열 */
+      width: 30%; /* 뜻 열 */
     }
 
     tbody tr {
@@ -131,7 +127,7 @@
 
 <div class="container">
 
-  <!-- 추가 버튼 가로 길이 = 화면 전체 너비 -->
+  <!-- 입력 박스와 추가 버튼 (화면 너비 100%) -->
   <div class="input-box">
     <div class="row">
       <input id="hanjaInput" placeholder="한자 입력">
@@ -140,7 +136,7 @@
     <button class="add-btn" onclick="addWord()">추가</button>
   </div>
 
-  <!-- 단어 테이블 가로 길이 = 추가 버튼과 똑같이 화면 전체 너비 -->
+  <!-- 단어 테이블 (버튼보다 가로로 더 긴 너비 120%) -->
   <div class="table-wrap">
     <table>
       <thead>

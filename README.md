@@ -8,12 +8,17 @@
   <script src="https://unpkg.com/pinyin-pro"></script>
 
   <style>
+    /* 
+      [핵심 수정] body의 여백(margin, padding)을 완전히 0으로 밀어버려서
+      화면 오른쪽에 개미 한 마리 지나갈 틈도 없이 여백을 100% 박멸합니다.
+    */
     body {
       margin: 0;
-      padding: 20px;
+      padding: 0;
       font-family: Arial, sans-serif;
       background: #f5f7fa;
       box-sizing: border-box;
+      width: 100%;
     }
 
     h1 {
@@ -22,22 +27,19 @@
       margin: 20px 0;
     }
 
-    /* 
-      추가 버튼과 테이블의 가로 길이를 완벽히 일치시키기 위한 공통 컨테이너
-      화면 양옆 여백을 제외하고 100% 꽉 차게 늘어납니다.
-    */
+    /* 화면 전체를 여백 없이 꽉 채우는 절대 틀 */
     .container {
       width: 100%;
-      margin: 0 auto;
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
     }
 
+    /* 입력 박스도 화면 끝에서 끝까지 100% */
     .input-box {
       width: 100%;
       background: white;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      overflow: hidden;
+      border-bottom: 1px solid #ccc; /* 아래쪽만 경계선 처리 */
       margin-bottom: 20px;
       box-sizing: border-box;
     }
@@ -48,17 +50,17 @@
     }
 
     .row input {
-      padding: 12px;
+      padding: 16px; /* 패드에서 터치하기 편하게 패딩 확대 */
       border: none;
       outline: none;
       font-size: 16px;
       border-bottom: 1px solid #eee;
     }
 
-    /* 추가 버튼의 너비를 부모(.input-box)에 100% 맞춤 */
+    /* 추가 버튼 가로 길이를 화면 전체(100%)로 확장 */
     .add-btn {
       width: 100%;
-      padding: 12px;
+      padding: 16px;
       border: none;
       background: #cfe2ff;
       font-size: 16px;
@@ -66,46 +68,51 @@
       box-sizing: border-box;
     }
 
-    /* 테이블 감싸는 영역도 부모(.container) 너비에 100% 맞춤으로써 버튼과 우측 라인이 일치함 */
+    /* 
+      [핵심 수정] 테이블 영역 역시 추가 버튼과 완벽하게 똑같이 
+      오른쪽 끝까지 한 치의 오차도 없이 100% 완전히 밀착시킵니다.
+    */
     .table-wrap {
       width: 100%;
       background: white;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid #ddd;
       box-sizing: border-box;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      table-layout: fixed; /* 정확한 10:30:30:30 비율 보장 */
+      table-layout: fixed; /* 브라우저가 멋대로 너비 안 바꾸고 10:30:30:30 비율을 칼같이 강제함 */
     }
 
     th, td {
       border: 1px solid #ddd;
-      padding: 14px 8px;
-      font-size: 14px;
+      padding: 16px 8px; /* 위아래 시원하게 늘림 */
+      font-size: 15px;
       text-align: center;
       box-sizing: border-box;
-      word-break: break-all;
+      word-break: break-all; /* 글자가 길어져도 오른쪽 여백을 깨뜨리지 않고 밑으로 자동 줄바꿈 */
     }
 
-    /* 지정하신 10 : 30 : 30 : 30 가로 비율 유지 */
+    /* 
+      최대한으로 늘린 가로 전체 길이(100%) 중에서
+      정확하게 10% : 30% : 30% : 30% 공간을 차지하도록 분배
+    */
     th:nth-child(1), td:nth-child(1) {
-      width: 10%;  /* 번호 */
+      width: 10%;  /* 번호 열 */
     }
 
     th:nth-child(2), td:nth-child(2) {
-      width: 30%; /* 한자 */
+      width: 30%; /* 한자 열 */
     }
 
     th:nth-child(3), td:nth-child(3) {
-      width: 30%; /* 병음 */
+      width: 30%; /* 병음 열 */
     }
 
     th:nth-child(4), td:nth-child(4) {
-      width: 30%; /* 뜻 */
+      width: 30%; /* 뜻 열 */
     }
 
     tbody tr {
@@ -122,9 +129,9 @@
 
 <h1>HSK</h1>
 
-<!-- 입력창과 테이블을 하나의 컨테이너로 묶어 가로정렬 선을 칼같이 일치시킴 -->
 <div class="container">
 
+  <!-- 추가 버튼 가로 길이 = 화면 전체 너비 -->
   <div class="input-box">
     <div class="row">
       <input id="hanjaInput" placeholder="한자 입력">
@@ -133,6 +140,7 @@
     <button class="add-btn" onclick="addWord()">추가</button>
   </div>
 
+  <!-- 단어 테이블 가로 길이 = 추가 버튼과 똑같이 화면 전체 너비 -->
   <div class="table-wrap">
     <table>
       <thead>

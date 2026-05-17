@@ -100,19 +100,19 @@
       정확하게 10% : 30% : 30% : 30% 공간을 차지하도록 분배
     */
     th:nth-child(1), td:nth-child(1) {
-      width: 10%;  /* 번호 열 */
+      width: 0.4%;  /* 번호 열 */
     }
 
     th:nth-child(2), td:nth-child(2) {
-      width: 30%; /* 한자 열 */
+      width: 10%; /* 한자 열 */
     }
 
     th:nth-child(3), td:nth-child(3) {
-      width: 30%; /* 병음 열 */
+      width: 10%; /* 병음 열 */
     }
 
     th:nth-child(4), td:nth-child(4) {
-      width: 30%; /* 뜻 열 */
+      width: 10%; /* 뜻 열 */
     }
 
     tbody tr {

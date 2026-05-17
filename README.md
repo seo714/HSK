@@ -15,7 +15,7 @@
       background: #f5f7fa;
       box-sizing: border-box;
       width: 100%;
-      /* body 전체 스크롤을 막아 상단 버튼과 타이틀이 가로로 흔들리지 않게 고정 */
+      /* body 전체가 가로로 흔들리는 것을 방지 */
       overflow-x: hidden; 
     }
 
@@ -25,7 +25,7 @@
       margin: 20px 0;
     }
 
-    /* 입력 박스와 추가 버튼: 기본 화면 너비(100%)에 맞춤 */
+    /* 상단 입력 박스와 추가 버튼: 화면 가로 폭(100%)에 깔끔하게 맞춤 */
     .input-box {
       width: 100%;
       background: white;
@@ -57,52 +57,70 @@
     }
 
     /* 
-      [핵심 수정] 테이블 감싸는 틀: 
-      1. 버튼보다 넓은 너비(150%)를 주어 양옆으로 튀어나오게 설정
-      2. margin: 0 auto; 와 좌우 음수 마진 조합으로 화면 '가운데 정렬' 완성
-      3. overflow-x: auto; 로 오직 이 테이블 영역 내부에서만 가로 스크롤 작동
+      [최종 디자인 반영] 테이블 전용 가로 스크롤 및 중앙 정렬 틀
+      - 둥근 모서리와 은은한 그림자로 고급스러운 앱 스타일 연출
     */
     .table-wrap {
       width: 150%; 
-      margin: 0 auto;
+      margin: 30px auto; /* 위아래 여백을 주어 버튼 영역과 분리 */
       position: relative;
       left: 50%;
-      transform: translateX(-50%); /* 화면 중앙에 완벽 배치 */
-      overflow-x: auto; /* 테이블 내부 가로 스크롤 기능 활성화 */
+      transform: translateX(-50%); /* 화면 정확히 중앙에 배치 */
+      overflow-x: auto; /* 오직 테이블 내부에서만 가로 스크롤 활성화 */
       background: white;
-      border-top: 1px solid #ddd;
-      border-bottom: 1px solid #ddd;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
       box-sizing: border-box;
-      -webkit-overflow-scrolling: touch; /* 패드/모바일에서 스크롤 부드럽게 */
+      -webkit-overflow-scrolling: touch; /* 태블릿 환경에서 부드러운 스크롤 */
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      table-layout: fixed; /* 10:30:30:30 비율 강제 유지 */
+      table-layout: fixed; /* 10:30:30:30 가로 비율 강제 고정 */
     }
 
-    th, td {
-      border: 1px solid #ddd;
-      padding: 16px 8px;
-      font-size: 15px;
+    /* 
+      헤더 디자인 (번호, 한자, 병음, 뜻 제목 칸)
+      - 바둑판 선을 없애고 세련된 블루그레이 배경과 묵직한 글자색 적용
+    */
+    th {
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 18px 8px;
+      border-bottom: 2px solid #e2e8f0; /* 헤더 아래쪽만 짙은 구분선 */
       text-align: center;
-      box-sizing: border-box;
+    }
+
+    /* 
+      데이터 셀 디자인 (단어들이 들어가는 칸)
+      - 답답한 좌우 테두리를 과감히 삭제하고 가로 선만 남겨 시원하게 처리
+    */
+    td {
+      padding: 20px 8px; /* 터치하기 쉽도록 위아래 여백을 넉넉하게 배치 */
+      font-size: 16px;
+      color: #1e293b;
+      border-bottom: 1px solid #f1f5f9; /* 은은하고 얇은 가로 경계선 */
+      text-align: center;
       word-break: break-all;
     }
 
-    /* 늘어난 전체 가로 폭 대비 요청하신 10:30:30:30 비율 적용 */
+    /* 늘어난 전체 가로 폭 대비 요청하신 10:30:30:30 가로 비율 고정 */
     th:nth-child(1), td:nth-child(1) { width: 10%; } /* 번호 */
-    th:nth-child(2), td:nth-child(2) { width: 30%; } /* 한자 */
-    th:nth-child(3), td:nth-child(3) { width: 30%; } /* 병음 */
+    th:nth-child(2), td:nth-child(2) { width: 30%; font-weight: bold; color: #007BFF; } /* 한자 강조 */
+    th:nth-child(3), td:nth-child(3) { width: 30%; color: #64748b; } /* 병음은 차분한 그레이 */
     th:nth-child(4), td:nth-child(4) { width: 30%; } /* 뜻 */
 
+    /* 줄을 누르거나 호버했을 때 피드백 효과 */
     tbody tr {
       cursor: pointer;
+      transition: background 0.2s ease;
     }
 
     tbody tr:hover {
-      background: #f8f9ff;
+      background: #f4f7ff; /* 부드러운 스카이 블루 톤 */
     }
   </style>
 </head>
@@ -111,7 +129,7 @@
 
 <h1>HSK</h1>
 
-<!-- 상단 입력 박스와 추가 버튼 (화면 너비 100% 고정) -->
+<!-- 1. 패드 가로 화면에 딱 맞게 고정된 버튼 영역 -->
 <div class="input-box">
   <div class="row">
     <input id="hanjaInput" placeholder="한자 입력">
@@ -120,7 +138,7 @@
   <button class="add-btn" onclick="addWord()">추가</button>
 </div>
 
-<!-- 하단 테이블 (가로 너비 150%로 양옆 확장 + 가운데 정렬 + 내부 가로 스크롤) -->
+<!-- 2. 버튼보다 더 넓고 중앙에 정렬되어 내부 스크롤이 되는 모던 디자인 테이블 -->
 <div class="table-wrap">
   <table>
     <thead>

@@ -12,17 +12,18 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f5f7fa;
-      text-align: center;
     }
 
     h1 {
       color: #007BFF;
       margin: 20px 0;
       font-size: 28px;
+      text-align: center;
     }
 
+    /* 입력 영역만 가운데 */
     .input-box {
-      width: 95%;
+      width: 100%;
       max-width: 700px;
       margin: 0 auto;
       border: 1px solid #ccc;
@@ -53,18 +54,17 @@
       cursor: pointer;
     }
 
-    /* ✅ padding 기준 내부에 맞추기 */
+    /* 테이블 영역: 완전 풀폭 */
     .table-wrap {
       width: 100%;
       margin-top: 20px;
-      overflow-x: auto;
-      padding: 10px;
+      padding: 0; /* ⭐ 핵심: 좌우 여백 제거 */
     }
 
     table {
       border-collapse: collapse;
       background: white;
-      width: 100%; /* ⭐ padding 내부 기준으로 꽉 */
+      width: 100%;
     }
 
     th, td {
@@ -72,7 +72,7 @@
       padding: 14px 18px;
       font-size: 14px;
       text-align: center;
-      width: 33.33%; /* ⭐ 3등분 */
+      width: 33.33%;
       white-space: nowrap;
     }
 
@@ -165,7 +165,6 @@
     document.getElementById("meaningInput").value = "";
   };
 
-  // 🔊 발음
   window.speakWord = function (text) {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "zh-CN";
@@ -173,7 +172,6 @@
     speechSynthesis.speak(utterance);
   };
 
-  // 삭제
   window.deleteWord = async function (id) {
     await deleteDoc(doc(db, "words", id));
   };
@@ -201,12 +199,10 @@
         <td>${word.meaning}</td>
       `;
 
-      // 🔊 클릭 → 발음
       row.addEventListener("click", () => {
         speakWord(word.hanja);
       });
 
-      // 🗑 길게 누르면 삭제
       let pressTimer;
 
       row.addEventListener("mousedown", () => {

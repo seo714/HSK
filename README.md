@@ -145,8 +145,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const colRef = collection(db,"words");
-const q = query(colRef, orderBy("order"));
+const colRef = collection(db, "words");
+const q = colRef;
 
 let words = [];
 

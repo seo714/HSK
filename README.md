@@ -24,6 +24,14 @@ th,td{border:1px solid #ddd;padding:14px 18px;font-size:14px;text-align:center;w
 th{background:#f1f1f1;}
 tbody tr{cursor:pointer;user-select:none;}
 tbody tr:hover{background:#f8f9ff;}
+
+/* added responsive table width */
+@media (min-width: 600px){
+  table{
+    width: 95vw;
+    max-width: 1100px;
+  }
+}
 </style>
 </head>
 <body>

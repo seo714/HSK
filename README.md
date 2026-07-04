@@ -15,11 +15,11 @@ h1{color:#007BFF;margin:20px 0;text-align:center;}
 .add-btn{flex:1;padding:12px;border:none;background:#cfe2ff;font-size:16px;cursor:pointer;}
 .delete-btn{width:60px;border:none;background:#f8d7da;font-size:16px;cursor:pointer;}
 .table-wrap{width:100%;margin-top:20px;}
-table{width:520px;margin:0 auto;table-layout:fixed;}
-th:nth-child(1),td:nth-child(1){width:40px;}
-th:nth-child(2),td:nth-child(2){width:120px;}
-th:nth-child(3),td:nth-child(3){width:160px;}
-th:nth-child(4),td:nth-child(4){width:200px;}
+table{width:1000px;margin:0 auto;table-layout:fixed;}
+th:nth-child(1),td:nth-child(1){width:200px;}
+th:nth-child(2),td:nth-child(2){width:240px;}
+th:nth-child(3),td:nth-child(3){width:260px;}
+th:nth-child(4),td:nth-child(4){width:300px;}
 th,td{border:1px solid #ddd;padding:14px 18px;font-size:14px;text-align:center;white-space:nowrap;}
 th{background:#f1f1f1;}
 tbody tr{cursor:pointer;user-select:none;}

@@ -1,8 +1,7 @@
-<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>HSK 단어장</title>
+<title>词汇本</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://unpkg.com/pinyin-pro"></script>
 <style>
@@ -28,25 +27,24 @@ tbody tr:hover{background:#f8f9ff;}
 </style>
 </head>
 <body>
-<h1>HSK</h1>
 
 <div class="input-box">
 <div class="row">
-<input id="hanjaInput" placeholder="한자 입력">
-<input id="meaningInput" placeholder="뜻 입력">
+<input id="hanjaInput" placeholder="汉字输入">
+<input id="meaningInput" placeholder="词义输入">
 </div>
 
 <div class="btn-row">
-<button class="shuffle-btn" onclick="shuffleWords()">🔀</button>
-<button class="add-btn" onclick="addWord()">추가</button>
-<button class="delete-btn" onclick="toggleDeleteMode()">🗑️</button>
+<button class="shuffle-btn" onclick="shuffleWords()">随机</button>
+<button class="add-btn" onclick="addWord()">添加</button>
+<button class="delete-btn" onclick="toggleDeleteMode()">删除</button>
 </div>
 </div>
 
 <div class="table-wrap">
 <table>
 <thead>
-<tr><th>No</th><th>한자</th><th>병음</th><th>뜻</th></tr>
+<tr><th>顺序</th><th>汉字</th><th>拼音</th><th>意思</th></tr>
 </thead>
 <tbody id="wordTable"></tbody>
 </table>
@@ -82,7 +80,7 @@ window.addWord=async function(){
  const meaning=document.getElementById("meaningInput").value.trim();
 
  if(!hanja||!meaning){
-  alert("모두 입력하세요!");
+  alert("请全部输入");
   return;
  }
 
@@ -159,7 +157,7 @@ function renderTable(){
 
     pressTimer = setTimeout(() => {
 
-      if (confirm("이 단어를 삭제할까요?")) {
+      if (confirm("删除这个单词吗?")) {
         deleteWord(word.id);
       }
 
@@ -181,7 +179,7 @@ function renderTable(){
 
     pressTimer = setTimeout(() => {
 
-      if (confirm("이 단어를 삭제할까요?")) {
+      if (confirm("删除这个单词吗?")) {
         deleteWord(word.id);
       }
 

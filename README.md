@@ -115,7 +115,7 @@ th:nth-child(4),td:nth-child(4){width:320px;}
 th,td{
     border:1px solid #E5E7EB;
     padding:14px 18px;
-    font-size:14px;
+    font-size:18px;
     text-align:center;
     white-space:nowrap;
 }

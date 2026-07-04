@@ -4,14 +4,12 @@
 <title>词汇本</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://unpkg.com/pinyin-pro"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
     
 <style>
 body{
     margin:0;
-    font-family: "Noto Sans KR", sans-serif;
+    font-family: "Pretendard", sans-serif;
     background:#F8FAFC;
 }
 
@@ -56,30 +54,30 @@ h1{
 .shuffle-btn{
     width:60px;
     border:none;
-    background:#F3F4F6;
-    color:#374151;
+    background:#DCFCE7;
+    color:#15803D;
     font-size:16px;
     cursor:pointer;
     transition:.2s;
 }
 
 .shuffle-btn:hover{
-    background:#E5E7EB;
+    background:#BBF7D0;
 }
 
 .add-btn{
     flex:1;
     padding:12px;
     border:none;
-    background:#2563EB;
-    color:white;
+    background:#DBEAFE;
+    color:#1D4ED8;
     font-size:16px;
     cursor:pointer;
     transition:.2s;
 }
 
 .add-btn:hover{
-    background:#1D4ED8;
+    background:#BFDBFE;
 }
 
 .delete-btn{

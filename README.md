@@ -9,10 +9,10 @@ body{margin:0;font-family:Arial,sans-serif;background:#f5f7fa;}
 h1{color:#007BFF;margin:20px 0;text-align:center;}
 .input-box{width:100%;max-width:700px;margin:0 auto;border:1px solid #ccc;border-radius:10px;overflow:hidden;background:#fff;}
 .row{display:flex;flex-direction:column;}
-.row input{padding:34px;border:none;outline:none;font-size:16px;border-bottom:1px solid #eee;}
+.row input{padding:12px;border:none;outline:none;font-size:16px;border-bottom:1px solid #eee;}
 .btn-row{display:flex;}
 .shuffle-btn{width:60px;border:none;background:#ffe599;font-size:16px;cursor:pointer;}
-.add-btn{flex:1;padding:34px;border:none;background:#cfe2ff;font-size:16px;cursor:pointer;}
+.add-btn{flex:1;padding:12px;border:none;background:#cfe2ff;font-size:16px;cursor:pointer;}
 .delete-btn{width:60px;border:none;background:#f8d7da;font-size:16px;cursor:pointer;}
 .table-wrap{width:100%;margin-top:20px;}
 table{width:520px;margin:0 auto;table-layout:fixed;}
@@ -20,7 +20,7 @@ th:nth-child(1),td:nth-child(1){width:40px;}
 th:nth-child(2),td:nth-child(2){width:120px;}
 th:nth-child(3),td:nth-child(3){width:160px;}
 th:nth-child(4),td:nth-child(4){width:200px;}
-th,td{border:1px solid #ddd;padding:34px 18px;font-size:14px;text-align:center;white-space:nowrap;}
+th,td{border:1px solid #ddd;padding:14px 18px;font-size:14px;text-align:center;white-space:nowrap;}
 th{background:#f1f1f1;}
 tbody tr{cursor:pointer;user-select:none;}
 tbody tr:hover{background:#f8f9ff;}

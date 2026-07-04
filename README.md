@@ -4,12 +4,12 @@
 <title>词汇本</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://unpkg.com/pinyin-pro"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard/dist/web/static/pretendard.css">
     
 <style>
 body{
     margin:0;
-    font-family: "Pretendard", sans-serif;
+    font-family:"Pretendard","Segoe UI",Arial,sans-serif;
     background:#F8FAFC;
 }
 
@@ -54,17 +54,17 @@ h1{
 .shuffle-btn{
     width:60px;
     border:none;
-    background:#DCFCE7;
-    color:#15803D;
+    background:#FEF3C7;
+    color:#B45309;
     font-size:16px;
     cursor:pointer;
     transition:.2s;
 }
 
 .shuffle-btn:hover{
-    background:#BBF7D0;
+    background:#FDE68A;
 }
-
+    
 .add-btn{
     flex:1;
     padding:12px;

@@ -15,32 +15,12 @@ h1{color:#007BFF;margin:20px 0;text-align:center;}
 .add-btn{flex:1;padding:12px;border:none;background:#cfe2ff;font-size:16px;cursor:pointer;}
 .delete-btn{width:60px;border:none;background:#f8d7da;font-size:16px;cursor:pointer;}
 .table-wrap{width:100%;margin-top:20px;}
-
-/* ====== 기존 고정폭(520px) 대신 패드/PC 크기에 맞춰 가로로 대폭 확장 ====== */
-table{
-  width: 95vw;          /* 패드 화면 좌우를 넓게 쓰도록 뷰포트 너비 반영 */
-  max-width: 1000px;    /* 너무 무한정 넓어지지 않도록 패드 맞춤 가로 제한 */
-  margin:0 auto;
-  table-layout:fixed;
-  border-collapse: collapse; /* 테두리 겹침 보정 */
-}
-
-/* 기존 디자인 비율을 유지하되, 패드 해상도에 맞춰 각 칸의 좌우 너비 확장 */
-th:nth-child(1),td:nth-child(1){width:10%;}  /* 순서 */
-th:nth-child(2),td:nth-child(2){width:25%;}  /* 한자 */
-th:nth-child(3),td:nth-child(3){width:32%;}  /* 拼音 */
-th:nth-child(4),td:nth-child(4){width:33%;}  /* 뜻 */
-
-th,td{
-  border:1px solid #ddd;
-  padding:14px 10px;    /* 상하 패딩 유지 및 내부 여백 조절 */
-  font-size:15px;       /* 패드 크기에 맞춰 시인성 개선 */
-  text-align:center;
-  white-space:nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; /* 칸이 넓어져도 글자가 넘치면 예쁘게 처리 */
-}
-
+table{width:520px;margin:0 auto;table-layout:fixed;}
+th:nth-child(1),td:nth-child(1){width:40px;}
+th:nth-child(2),td:nth-child(2){width:120px;}
+th:nth-child(3),td:nth-child(3){width:160px;}
+th:nth-child(4),td:nth-child(4){width:200px;}
+th,td{border:1px solid #ddd;padding:14px 18px;font-size:14px;text-align:center;white-space:nowrap;}
 th{background:#f1f1f1;}
 tbody tr{cursor:pointer;user-select:none;}
 tbody tr:hover{background:#f8f9ff;}
@@ -148,8 +128,8 @@ function renderTable(){
   try{
    if(window.pinyinPro&&word.hanja){
     pinyin=window.pinyinPro.pinyin(word.hanja,{
-     toneType:"mark",
-     type:"array"
+      toneType:"mark",
+      type:"array"
     }).join(" ");
    }
   }catch(e){}
@@ -162,20 +142,27 @@ function renderTable(){
   `;
 
   row.addEventListener("click", () => {
+
     if (!deleteMode) {
       speakWord(word.hanja);
     }
+
   });
 
   let pressTimer;
 
   row.addEventListener("mousedown", () => {
+
     if (!deleteMode) return;
+
     pressTimer = setTimeout(() => {
+
       if (confirm("删除这个单词吗?")) {
         deleteWord(word.id);
       }
+
     }, 700);
+
   });
 
   row.addEventListener("mouseup", () => {
@@ -187,12 +174,17 @@ function renderTable(){
   });
 
   row.addEventListener("touchstart", () => {
+
     if (!deleteMode) return;
+
     pressTimer = setTimeout(() => {
+
       if (confirm("删除这个单词吗?")) {
         deleteWord(word.id);
       }
+
     }, 700);
+
   });
 
   row.addEventListener("touchend", () => {

@@ -11,9 +11,9 @@ h1{color:#007BFF;margin:20px 0;text-align:center;}
 .row{display:flex;flex-direction:column;}
 .row input{padding:12px;border:none;outline:none;font-size:16px;border-bottom:1px solid #eee;}
 .btn-row{display:flex;}
-.shuffle-btn{width:60px;border:none;background:#ffe599;font-size:20px;cursor:pointer;}
+.shuffle-btn{width:60px;border:none;background:#ffe599;font-size:12px;cursor:pointer;}
 .add-btn{flex:1;padding:12px;border:none;background:#cfe2ff;font-size:16px;cursor:pointer;}
-.delete-btn{width:60px;border:none;background:#f8d7da;font-size:20px;cursor:pointer;}
+.delete-btn{width:60px;border:none;background:#f8d7da;font-size:12px;cursor:pointer;}
 .table-wrap{width:100%;margin-top:20px;}
 table{width:520px;margin:0 auto;table-layout:fixed;}
 th:nth-child(1),td:nth-child(1){width:40px;}

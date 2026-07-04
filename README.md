@@ -6,41 +6,72 @@
 <script src="https://unpkg.com/pinyin-pro"></script>
 
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#f5f7fa;}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7fa; padding: 20px 10px;}
 h1{color:#007BFF;margin:20px 0;text-align:center;}
-.input-box{width:100%;max-width:700px;margin:0 auto;border:1px solid #ccc;border-radius:10px;overflow:hidden;background:#fff;}
+
+/* ====== 입력창 스타일 (컴팩트하게 유지) ====== */
+.input-box{
+  width:100%;
+  max-width:700px; /* 입력창은 최대 700px로 제한 */
+  margin:0 auto 30px auto; /* 아래 테이블과의 간격 확보 */
+  border:1px solid #ccc;
+  border-radius:10px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
 .row{display:flex;flex-direction:column;}
-.row input{padding:12px;border:none;outline:none;font-size:16px;border-bottom:1px solid #eee;}
+.row input{padding:14px;border:none;outline:none;font-size:16px;border-bottom:1px solid #eee;}
 .btn-row{display:flex;}
-.shuffle-btn{width:60px;border:none;background:#ffe599;font-size:16px;cursor:pointer;}
-.add-btn{flex:1;padding:12px;border:none;background:#cfe2ff;font-size:16px;cursor:pointer;}
-.delete-btn{width:60px;border:none;background:#f8d7da;font-size:16px;cursor:pointer;}
-.table-wrap{width:100%;margin-top:20px;}
+.shuffle-btn{width:70px;border:none;background:#ffe599;font-size:16px;cursor:pointer;}
+.add-btn{flex:1;padding:14px;border:none;background:#cfe2ff;font-size:16px;cursor:pointer;font-weight:bold;}
+.delete-btn{width:70px;border:none;background:#f8d7da;font-size:16px;cursor:pointer;}
 
-/* 기존 그대로 유지 */
-table{width:520px;margin:0 auto;table-layout:fixed;}
+/* ====== 테이블 스타일 (입력창보다 더 넓게 튀어나옴) ====== */
+.table-wrap{
+  width:100%;
+  max-width:1100px; /* 테이블은 최대 1100px로 입력창보다 훨씬 넓게 설정 */
+  margin:0 auto;
+  overflow-x: auto;
+}
 
-th:nth-child(1),td:nth-child(1){width:40px;}
-th:nth-child(2),td:nth-child(2){width:120px;}
-th:nth-child(3),td:nth-child(3){width:160px;}
-th:nth-child(4),td:nth-child(4){width:200px;}
+table{
+  width: 100%; /* 감싸는 영역(1100px)에 맞게 꽉 채움 */
+  border-collapse: collapse;
+  table-layout:fixed;
+}
 
-th,td{border:1px solid #ddd;padding:14px 18px;font-size:14px;text-align:center;white-space:nowrap;}
-th{background:#f1f1f1;}
+/* 컬럼별 너비 비율 조정 */
+th:nth-child(1),td:nth-child(1){width:10%;}  /* 순서 */
+th:nth-child(2),td:nth-child(2){width:25%;}  /* 한자 */
+th:nth-child(3),td:nth-child(3){width:30%;}  /* 拼音 */
+th:nth-child(4),td:nth-child(4){width:35%;}  /* 뜻 */
+
+th,td{
+  border:1px solid #ddd;
+  padding:14px 10px;
+  font-size:15px;
+  text-align:center;
+  white-space:nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+th{background:#f1f1f1;font-weight: bold;}
 tbody tr{cursor:pointer;user-select:none;}
 tbody tr:hover{background:#f8f9ff;}
 
-/* ====== 여기만 추가 (크기만 수정) ====== */
+/* PC 화면에서 입력창 정렬 */
 @media (min-width: 600px){
-  table{
-    width: 95vw !important;
-    max-width: 1100px;
-  }
+  .row { flex-direction: row; }
+  .row input { flex: 1; border-bottom: none; }
+  .row input:first-child { border-right: 1px solid #eee; }
 }
 </style>
 </head>
 
 <body>
+
+<h1>词汇本</h1>
 
 <div class="input-box">
 <div class="row">
@@ -142,8 +173,8 @@ function renderTable(){
   try{
    if(window.pinyinPro&&word.hanja){
     pinyin=window.pinyinPro.pinyin(word.hanja,{
-      toneType:"mark",
-      type:"array"
+     toneType:"mark",
+     type:"array"
     }).join(" ");
    }
   }catch(e){}

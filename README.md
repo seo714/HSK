@@ -14,7 +14,7 @@ h1{color:#007BFF;margin:20px 0;text-align:center;}
 .shuffle-btn{width:60px;border:none;background:#ffe599;font-size:16px;cursor:pointer;}
 .add-btn{flex:1;padding:12px;border:none;background:#cfe2ff;font-size:16px;cursor:pointer;}
 .delete-btn{width:60px;border:none;background:#f8d7da;font-size:16px;cursor:pointer;}
-.table-wrap{width:1000%;margin-top:20px;}
+.table-wrap{width:100%;margin-top:20px;}
 table{width:100px;margin:0 auto;table-layout:fixed;}
 th:nth-child(1),td:nth-child(1){width:100px;}
 th:nth-child(2),td:nth-child(2){width:290px;}

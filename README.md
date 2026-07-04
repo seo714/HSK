@@ -4,6 +4,7 @@
 <title>词汇本</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://unpkg.com/pinyin-pro"></script>
+
 <style>
 body{margin:0;font-family:Arial,sans-serif;background:#f5f7fa;}
 h1{color:#007BFF;margin:20px 0;text-align:center;}
@@ -15,25 +16,30 @@ h1{color:#007BFF;margin:20px 0;text-align:center;}
 .add-btn{flex:1;padding:12px;border:none;background:#cfe2ff;font-size:16px;cursor:pointer;}
 .delete-btn{width:60px;border:none;background:#f8d7da;font-size:16px;cursor:pointer;}
 .table-wrap{width:100%;margin-top:20px;}
+
+/* 기존 그대로 유지 */
 table{width:520px;margin:0 auto;table-layout:fixed;}
+
 th:nth-child(1),td:nth-child(1){width:40px;}
 th:nth-child(2),td:nth-child(2){width:120px;}
 th:nth-child(3),td:nth-child(3){width:160px;}
 th:nth-child(4),td:nth-child(4){width:200px;}
+
 th,td{border:1px solid #ddd;padding:14px 18px;font-size:14px;text-align:center;white-space:nowrap;}
 th{background:#f1f1f1;}
 tbody tr{cursor:pointer;user-select:none;}
 tbody tr:hover{background:#f8f9ff;}
 
-/* added responsive table width */
+/* ====== 여기만 추가 (크기만 수정) ====== */
 @media (min-width: 600px){
   table{
-    width: 95vw;
+    width: 95vw !important;
     max-width: 1100px;
   }
 }
 </style>
 </head>
+
 <body>
 
 <div class="input-box">
@@ -150,58 +156,40 @@ function renderTable(){
   `;
 
   row.addEventListener("click", () => {
-
-    if (!deleteMode) {
-      speakWord(word.hanja);
-    }
-
+    if (!deleteMode) speakWord(word.hanja);
   });
 
   let pressTimer;
 
   row.addEventListener("mousedown", () => {
-
     if (!deleteMode) return;
 
     pressTimer = setTimeout(() => {
-
       if (confirm("删除这个单词吗?")) {
         deleteWord(word.id);
       }
-
     }, 700);
-
   });
 
-  row.addEventListener("mouseup", () => {
-    clearTimeout(pressTimer);
-  });
-
-  row.addEventListener("mouseleave", () => {
-    clearTimeout(pressTimer);
-  });
+  row.addEventListener("mouseup", () => clearTimeout(pressTimer));
+  row.addEventListener("mouseleave", () => clearTimeout(pressTimer));
 
   row.addEventListener("touchstart", () => {
-
     if (!deleteMode) return;
 
     pressTimer = setTimeout(() => {
-
       if (confirm("删除这个单词吗?")) {
         deleteWord(word.id);
       }
-
     }, 700);
-
   });
 
-  row.addEventListener("touchend", () => {
-    clearTimeout(pressTimer);
-  });
+  row.addEventListener("touchend", () => clearTimeout(pressTimer));
 
   table.appendChild(row);
- });
+});
 }
 </script>
+
 </body>
 </html>

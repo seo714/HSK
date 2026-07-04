@@ -5,25 +5,135 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://unpkg.com/pinyin-pro"></script>
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#f5f7fa;}
-h1{color:#007BFF;margin:20px 0;text-align:center;}
-.input-box{width:100%;max-width:700px;margin:0 auto;border:1px solid #ccc;border-radius:10px;overflow:hidden;background:#fff;}
-.row{display:flex;flex-direction:column;}
-.row input{padding:12px;border:none;outline:none;font-size:16px;border-bottom:1px solid #eee;}
-.btn-row{display:flex;}
-.shuffle-btn{width:60px;border:none;background:#ffe599;font-size:16px;cursor:pointer;}
-.add-btn{flex:1;padding:12px;border:none;background:#cfe2ff;font-size:16px;cursor:pointer;}
-.delete-btn{width:60px;border:none;background:#f8d7da;font-size:16px;cursor:pointer;}
-.table-wrap{width:100%;margin-top:20px;}
-table{width:100px;margin:0 auto;table-layout:fixed;}
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#F8FAFC;
+}
+
+h1{
+    color:#2563EB;
+    margin:20px 0;
+    text-align:center;
+}
+
+.input-box{
+    width:100%;
+    max-width:700px;
+    margin:0 auto;
+    border:1px solid #E5E7EB;
+    border-radius:12px;
+    overflow:hidden;
+    background:#FFFFFF;
+}
+
+.row{
+    display:flex;
+    flex-direction:column;
+}
+
+.row input{
+    padding:12px;
+    border:none;
+    outline:none;
+    font-size:16px;
+    border-bottom:1px solid #E5E7EB;
+    background:#FFFFFF;
+}
+
+.row input::placeholder{
+    color:#9CA3AF;
+}
+
+.btn-row{
+    display:flex;
+}
+
+.shuffle-btn{
+    width:60px;
+    border:none;
+    background:#F3F4F6;
+    color:#374151;
+    font-size:16px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.shuffle-btn:hover{
+    background:#E5E7EB;
+}
+
+.add-btn{
+    flex:1;
+    padding:12px;
+    border:none;
+    background:#2563EB;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.add-btn:hover{
+    background:#1D4ED8;
+}
+
+.delete-btn{
+    width:60px;
+    border:none;
+    background:#FEE2E2;
+    color:#DC2626;
+    font-size:16px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.delete-btn:hover{
+    background:#FECACA;
+}
+
+.table-wrap{
+    width:100%;
+    margin-top:20px;
+}
+
+table{
+    width:1000px;
+    margin:0 auto;
+    table-layout:fixed;
+    border-collapse:collapse;
+    background:#FFFFFF;
+}
+
 th:nth-child(1),td:nth-child(1){width:100px;}
 th:nth-child(2),td:nth-child(2){width:290px;}
 th:nth-child(3),td:nth-child(3){width:290px;}
 th:nth-child(4),td:nth-child(4){width:320px;}
-th,td{border:1px solid #ddd;padding:14px 18px;font-size:14px;text-align:center;white-space:nowrap;}
-th{background:#f1f1f1;}
-tbody tr{cursor:pointer;user-select:none;}
-tbody tr:hover{background:#f8f9ff;}
+
+th,td{
+    border:1px solid #E5E7EB;
+    padding:14px 18px;
+    font-size:14px;
+    text-align:center;
+    white-space:nowrap;
+}
+
+th{
+    background:#EFF6FF;
+    color:#1E3A8A;
+    font-weight:600;
+}
+
+tbody tr{
+    cursor:pointer;
+    user-select:none;
+    background:#FFFFFF;
+    transition:.15s;
+}
+
+tbody tr:hover{
+    background:#F1F5F9;
+}
 </style>
 </head>
 <body>

@@ -259,6 +259,7 @@ function renderTable(){
   `;
 
   row.addEventListener("click", () => {
+    e.currentTarget.blur();
 
     if (!deleteMode) {
       speakWord(word.hanja);

@@ -136,6 +136,11 @@ tbody tr{
 tbody tr:hover{
     background:#F1F5F9;
 }
+button,
+tbody tr{
+    -webkit-tap-highlight-color: transparent;
+}
+
 </style>
 </head>
 <body>

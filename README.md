@@ -136,49 +136,67 @@ tbody tr{
 tbody tr:hover{
     background:#F1F5F9;
 }
+.menu{
 
-.fab{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    width:60px;
-    height:60px;
-    border:none;
-    border-radius:50%;
-    background:#2563EB;
-    color:white;
-    font-size:28px;
-    cursor:pointer;
-    z-index:999;
+width:700px;
+
+margin:0 auto 20px;
+
+display:flex;
+
+gap:15px;
+
 }
 
-.songModal{
-    display:none;
-    position:fixed;
-    left:0;
-    top:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,.4);
-    justify-content:center;
-    align-items:center;
+.menu-btn{
+
+flex:1;
+
+padding:16px;
+
+border:none;
+
+border-radius:12px;
+
+background:#EFF6FF;
+
+color:#2563EB;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:.2s;
+
 }
 
-.songBox{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-}
+.menu-btn:hover{
 
-.songBox button{
-    display:block;
-    width:100%;
-    margin:10px 0;
+background:#DBEAFE;
+
 }
-    
 </style>
 </head>
 <body>
+<body>
+
+<h1>HSK</h1>
+
+<div class="menu">
+
+<span onclick="window.open('https://hanja.dict.naver.com')">
+汉字字典
+</span>
+
+<span class="divider">｜</span>
+
+<span onclick="location.href='songs.html'">
+歌词本
+</span>
+
+</div>
 
 <div class="input-box">
 <div class="row">
@@ -670,23 +688,21 @@ function renderTable(){
  });
 }
 </script>
-<button class="fab" onclick="openSongMenu()">音乐</button>
-
 <div id="songModal" class="songModal">
 
-<div class="songBox">
+    <div class="songBox">
 
-<h3>选择歌曲</h3>
+        <h2>歌词本</h2>
 
-<button onclick="goSong('guyongzhe')">孤勇者</button>
+        <button onclick="goSong('chaogan')">超感</button>
 
-<button onclick="goSong('qifengle')">起风了</button>
+        <button onclick="goSong('xiangjianni')">想见你</button>
 
-<button onclick="goSong('daoxiang')">稻香</button>
+        <button onclick="goSong('aiyaaiya')">爱丫爱丫</button>
 
-<button onclick="closeSongMenu()">닫기</button>
+        <button onclick="closeSongMenu()">关闭</button>
 
-</div>
+    </div>
 
 </div>
 </body>

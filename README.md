@@ -136,6 +136,46 @@ tbody tr{
 tbody tr:hover{
     background:#F1F5F9;
 }
+
+.fab{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    width:60px;
+    height:60px;
+    border:none;
+    border-radius:50%;
+    background:#2563EB;
+    color:white;
+    font-size:28px;
+    cursor:pointer;
+    z-index:999;
+}
+
+.songModal{
+    display:none;
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.4);
+    justify-content:center;
+    align-items:center;
+}
+
+.songBox{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+}
+
+.songBox button{
+    display:block;
+    width:100%;
+    margin:10px 0;
+}
+    
 </style>
 </head>
 <body>
@@ -226,6 +266,18 @@ window.speakWord=function(text){
 window.deleteWord=async function(id){
  await deleteDoc(doc(db,"words",id));
 };
+
+window.openSongMenu=function(){
+ document.getElementById("songModal").style.display="flex";
+}
+
+window.closeSongMenu=function(){
+ document.getElementById("songModal").style.display="none";
+}
+
+window.goSong=function(song){
+ location.href="lyrics.html?song="+song;
+}
 
 function renderTable(){
  const table=document.getElementById("wordTable");
@@ -618,5 +670,24 @@ function renderTable(){
  });
 }
 </script>
+<button class="fab" onclick="openSongMenu()">音乐</button>
+
+<div id="songModal" class="songModal">
+
+<div class="songBox">
+
+<h3>选择歌曲</h3>
+
+<button onclick="goSong('guyongzhe')">孤勇者</button>
+
+<button onclick="goSong('qifengle')">起风了</button>
+
+<button onclick="goSong('daoxiang')">稻香</button>
+
+<button onclick="closeSongMenu()">닫기</button>
+
+</div>
+
+</div>
 </body>
 </html>

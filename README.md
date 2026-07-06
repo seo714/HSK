@@ -136,6 +136,42 @@ tbody tr{
 tbody tr:hover{
     background:#F1F5F9;
 }
+.music-fab{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    width:60px;
+    height:60px;
+    border:none;
+    border-radius:50%;
+    background:#2563EB;
+    color:white;
+    font-size:28px;
+    cursor:pointer;
+    box-shadow:0 5px 15px rgba(0,0,0,.25);
+}
+
+.song-menu{
+    display:none;
+    position:fixed;
+    right:25px;
+    bottom:95px;
+    width:220px;
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,.2);
+}
+
+.song-menu div{
+    padding:15px;
+    cursor:pointer;
+    border-bottom:1px solid #eee;
+}
+
+.song-menu div:hover{
+    background:#EFF6FF;
+}
 </style>
 </head>
 <body>
@@ -214,6 +250,25 @@ window.toggleDeleteMode=function(){
  deleteMode=!deleteMode;
  const btn=document.querySelector(".delete-btn");
  btn.style.background=deleteMode ? "#ff6b6b" : "#f8d7da";
+};
+
+window.toggleDeleteMode=function(){
+
+...
+};
+
+window.openSongMenu=function(){
+
+    const menu=document.getElementById("songMenu");
+
+    menu.style.display=
+        menu.style.display==="block" ? "none" : "block";
+
+};
+
+window.speakWord=function(text){
+
+...
 };
 
 window.speakWord=function(text){
@@ -307,5 +362,14 @@ function renderTable(){
  });
 }
 </script>
+<button class="music-fab" onclick="openSongMenu()">🎵</button>
+
+<div id="songMenu" class="song-menu">
+
+<div onclick="window.open('lyrics.html?file=chaogan.txt','_blank')">
+🎵 超感
+</div>
+
+</div>
 </body>
 </html>

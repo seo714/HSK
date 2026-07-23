@@ -378,7 +378,7 @@ tbody tr:hover{
 
 <div class="lyrics-panel" id="lyricsPanel">
   <div class="lyrics-header">
-    <h3>🎵 歌词本 (가사)</h3>
+    <h3>🎵 歌词本</h3>
     <button class="lyrics-close-btn" onclick="toggleLyricsPanel()">✕</button>
   </div>
   

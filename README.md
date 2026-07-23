@@ -430,7 +430,7 @@ const SONG_LIST = [
   {
     title: "想见你想见你想见你 (xiangjianni)",
     file: "xiangjianni.txt",
-    url: `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/xiangjianni.txt`
+    url: `https://raw.githubusercontent.com/seo714/HSK/main/xiangjianni.txt`
   }
 ];
 

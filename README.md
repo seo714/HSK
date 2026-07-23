@@ -97,11 +97,13 @@ h1{
     background:#FECACA;
 }
 
+/* 스크롤 감싸는 영역 : 스크롤 기능 핵심 적용 */
 .table-wrap{
     width: 100%;
     max-width: 1000px; 
     margin:10px auto 0 auto;
-    overflow-x: auto;
+    overflow-x: auto; /* 가로 스크롤 활성화 */
+    -webkit-overflow-scrolling: touch; /* iOS/아이패드 터치 스크롤 지원 */
     white-space: nowrap;
     scroll-behavior: smooth;
 }
@@ -114,7 +116,6 @@ h1{
     justify-content:flex-start;
 }
 
-/* 상단 즐겨찾기 버튼: 기존 80px 너비로 유지 */
 .fav-filter-btn{
     width:80px;
     padding:6px 0;
@@ -139,7 +140,7 @@ h1{
     border-color:#D97706;
 }
 
-/* 전체 표 너비 (숨겨진 즐겨찾기 열 50px + 기본 1000px = 1050px) */
+/* 테이블 크기 고정 (즐겨찾기 열 50px + 기본 1000px = 총 1050px) */
 table{
     width:1050px; 
     table-layout:fixed;
@@ -147,7 +148,7 @@ table{
     background:#FFFFFF;
 }
 
-/* 표 안의 첫 번째 '즐겨찾기' 열만 50px로 줄임 */
+/* 표 안의 첫 번째 '즐겨찾기' 칸 50px 고정 */
 th:nth-child(1),td:nth-child(1){width:50px; padding:14px 0;}  
 th:nth-child(2),td:nth-child(2){width:100px;} /* 顺序 */
 th:nth-child(3),td:nth-child(3){width:290px;} /* 汉字 */
@@ -265,6 +266,7 @@ onSnapshot(colRef,(snapshot)=>{
  }
 });
 
+/* 첫 진입 시 스크롤 위치를 50px 이동시켜 즐겨찾기 열 숨김 */
 function hideFavoriteColumn(){
  const wrap = document.getElementById("tableWrap");
  wrap.scrollLeft = 50;

@@ -54,15 +54,16 @@ h1{
 .shuffle-btn{
     width:60px;
     border:none;
-    background:#FEF3C7;
-    color:#B45309;
+    background:#D1FAE5;
+    color:#047857;
     font-size:16px;
+    font-weight:normal;
     cursor:pointer;
     transition:.2s;
 }
 
 .shuffle-btn:hover{
-    background:#FDE68A;
+    background:#A7F3D0;
 }
     
 .add-btn{
@@ -72,6 +73,7 @@ h1{
     background:#DBEAFE;
     color:#1D4ED8;
     font-size:16px;
+    font-weight:normal;
     cursor:pointer;
     transition:.2s;
 }
@@ -86,6 +88,7 @@ h1{
     background:#FEE2E2;
     color:#DC2626;
     font-size:16px;
+    font-weight:normal;
     cursor:pointer;
     transition:.2s;
 }
@@ -95,31 +98,31 @@ h1{
 }
 
 .table-wrap{
-    width:1000px; 
-    max-width: 95vw;
+    width: 100%;
+    max-width: 1000px; 
     margin:10px auto 0 auto;
     overflow-x: auto;
     white-space: nowrap;
     scroll-behavior: smooth;
 }
 
-/* 필터 버튼 영역 스타일 */
 .filter-bar{
-    width:1000px;
-    max-width:95vw;
+    width: 100%;
+    max-width: 1000px;
     margin:15px auto 0 auto;
     display:flex;
     justify-content:flex-start;
 }
 
+/* 상단 즐겨찾기 버튼: 기존 80px 너비로 유지 */
 .fav-filter-btn{
     width:80px;
     padding:6px 0;
-    border:1px solid #FCD34D;
+    border:1px solid #FDE68A;
     background:#FEF3C7;
-    color:#D97706;
-    font-size:14px;
-    font-weight:600;
+    color:#B45309;
+    font-size:16px;
+    font-weight:normal;
     border-radius:6px;
     cursor:pointer;
     transition:.2s;
@@ -136,14 +139,16 @@ h1{
     border-color:#D97706;
 }
 
+/* 전체 표 너비 (숨겨진 즐겨찾기 열 50px + 기본 1000px = 1050px) */
 table{
-    width:1080px; 
+    width:1050px; 
     table-layout:fixed;
     border-collapse:collapse;
     background:#FFFFFF;
 }
 
-th:nth-child(1),td:nth-child(1){width:80px;}  /* 收藏 (숨겨진 즐겨찾기) */
+/* 표 안의 첫 번째 '즐겨찾기' 열만 50px로 줄임 */
+th:nth-child(1),td:nth-child(1){width:50px; padding:14px 0;}  
 th:nth-child(2),td:nth-child(2){width:100px;} /* 顺序 */
 th:nth-child(3),td:nth-child(3){width:290px;} /* 汉字 */
 th:nth-child(4),td:nth-child(4){width:290px;} /* 意思 */
@@ -175,8 +180,11 @@ tbody tr:hover{
     background:#F1F5F9;
 }
 
-.star-btn{
+.fav-cell{
     cursor:pointer;
+}
+
+.star-btn{
     font-size:20px;
     color:#D1D5DB;
     transition:transform 0.1s ease, color 0.1s ease;
@@ -186,7 +194,7 @@ tbody tr:hover{
     color:#F59E0B;
 }
 
-.star-btn:hover{
+.fav-cell:hover .star-btn{
     transform:scale(1.2);
 }
 </style>
@@ -206,7 +214,6 @@ tbody tr:hover{
 </div>
 </div>
 
-<!-- 즐겨찾기 필터 버튼 -->
 <div class="filter-bar">
   <button id="favFilterBtn" class="fav-filter-btn" onclick="toggleFavoriteFilter()">☆ 收藏</button>
 </div>
@@ -260,12 +267,7 @@ onSnapshot(colRef,(snapshot)=>{
 
 function hideFavoriteColumn(){
  const wrap = document.getElementById("tableWrap");
- wrap.scrollLeft = 80;
-}
-
-function showFavoriteColumn(){
- const wrap = document.getElementById("tableWrap");
- wrap.scrollLeft = 0;
+ wrap.scrollLeft = 50;
 }
 
 window.toggleFavoriteFilter=function(){
@@ -275,7 +277,6 @@ window.toggleFavoriteFilter=function(){
  if(filterOnlyFavorite){
    btn.classList.add("active");
    btn.innerText = "★ 收藏";
-   showFavoriteColumn();
  } else {
    btn.classList.remove("active");
    btn.innerText = "☆ 收藏";
@@ -324,7 +325,6 @@ window.deleteWord=async function(id){
  await deleteDoc(doc(db,"words",id));
 };
 
-/* 즐겨찾기 상태 변경 (수정완료) */
 window.toggleFavorite=async function(id, currentStatus, event){
  event.stopPropagation();
  try {
@@ -362,9 +362,8 @@ function renderTable(){
   const isFav = word.favorite || false;
 
   row.innerHTML=`
-    <td>
-      <span class="star-btn ${isFav ? 'active' : ''}" 
-            onclick="toggleFavorite('${word.id}', ${isFav}, event)">
+    <td class="fav-cell" onclick="toggleFavorite('${word.id}', ${isFav}, event)">
+      <span class="star-btn ${isFav ? 'active' : ''}">
         ${isFav ? '★' : '☆'}
       </span>
     </td>

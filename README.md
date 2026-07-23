@@ -385,12 +385,12 @@ tbody tr:hover{
   <div class="lyrics-body">
     <!-- 노래 선택 셀렉트박스 -->
     <select id="songSelect" class="lyrics-select" onchange="onSongSelect(this.value)">
-      <option value="">-- 选择歌曲 (노래 선택) --</option>
+      <option value="">-- 选择歌曲 --</option>
     </select>
     
     <!-- 가사 표시창 -->
     <div class="lyrics-display" id="lyricDisplay">
-      <div class="lyrics-empty-msg">请选择歌曲<br>(노래를 선택해 주세요)</div>
+      <div class="lyrics-empty-msg">请选择歌曲<br></div>
     </div>
   </div>
 </div>

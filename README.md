@@ -12,10 +12,12 @@
 /* 모든 요소에 SUIT 폰트 기본 적용 */
 * {
     font-family: 'SUIT', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    box-sizing: border-box;
 }
 
 body{
     margin:0;
+    padding-bottom: 80px;
     background:#F8FAFC;
     -webkit-tap-highlight-color: transparent;
 }
@@ -104,15 +106,15 @@ h1{
     background:#FECACA;
 }
 
-/* ★ 패드/모바일 드래그 스크롤 전용 속성 강화 ★ */
+/* 패드/모바일 드래그 스크롤 */
 .table-wrap{
     width: 100%;
     max-width: 1000px; 
     margin:10px auto 0 auto;
     overflow-x: auto; 
     overflow-y: hidden;
-    -webkit-overflow-scrolling: touch; /* iOS 및 iPadOS 최적화 */
-    touch-action: pan-x pan-y; /* 손가락 드래그 터치 동작 방해 해제 */
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
     white-space: nowrap;
 }
 
@@ -148,7 +150,6 @@ h1{
     border-color:#D97706;
 }
 
-/* 전체 표 너비 1050px 고정 */
 table{
     width:1050px; 
     table-layout:fixed;
@@ -156,7 +157,6 @@ table{
     background:#FFFFFF;
 }
 
-/* 첫 번째 즐겨찾기 열 50px */
 th:nth-child(1),td:nth-child(1){width:50px; padding:14px 0;}  
 th:nth-child(2),td:nth-child(2){width:100px;} /* 顺序 */
 th:nth-child(3),td:nth-child(3){width:290px;} /* 汉字 */
@@ -169,7 +169,6 @@ th,td{
     font-size:18px;
     text-align:center;
     white-space:nowrap;
-    box-sizing: border-box;
 }
 
 th{
@@ -205,6 +204,136 @@ tbody tr:hover{
 
 .fav-cell:hover .star-btn{
     transform:scale(1.2);
+}
+
+/* ===================================================
+   🎵 우측 하단 노래 가사 플로팅 탭 스타일
+   =================================================== */
+.lyrics-fab {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: #2563EB;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    transition: all 0.25s ease;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lyrics-fab:hover {
+    background: #1D4ED8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+}
+
+/* 📱 화면 전체를 꽉 채우는 가사 패널 */
+.lyrics-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #FFFFFF;
+    display: none;
+    flex-direction: column;
+    z-index: 2000;
+    overflow: hidden;
+}
+
+.lyrics-panel.show {
+    display: flex;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.lyrics-header {
+    background: #EFF6FF;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #DBEAFE;
+}
+
+.lyrics-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #1E3A8A;
+}
+
+.lyrics-close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #6B7280;
+    cursor: pointer;
+    padding: 4px 8px;
+    line-height: 1;
+}
+
+.lyrics-body {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* 노래 선택 드롭다운 */
+.lyrics-select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #DBEAFE;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    background: #F8FAFC;
+    color: #1E3A8A;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.lyrics-select:focus {
+    border-color: #2563EB;
+    background: #FFFFFF;
+}
+
+/* 가사 본문 영역 (전체 화면 대응) */
+.lyrics-display {
+    white-space: pre-wrap;
+    font-size: 16px;
+    line-height: 2;
+    color: #1E293B;
+    background: #F8FAFC;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.lyrics-empty-msg {
+    text-align: center;
+    color: #9CA3AF;
+    font-size: 16px;
+    margin-top: 60px;
 }
 </style>
 </head>
@@ -242,6 +371,30 @@ tbody tr:hover{
 </table>
 </div>
 
+<!-- 🎵 우측 하단 노래 가사 플로팅 버튼 & 전체화면 패널 -->
+<button class="lyrics-fab" onclick="toggleLyricsPanel()">
+  🎵 歌词
+</button>
+
+<div class="lyrics-panel" id="lyricsPanel">
+  <div class="lyrics-header">
+    <h3>🎵 歌词本 (가사)</h3>
+    <button class="lyrics-close-btn" onclick="toggleLyricsPanel()">✕</button>
+  </div>
+  
+  <div class="lyrics-body">
+    <!-- 노래 선택 셀렉트박스 -->
+    <select id="songSelect" class="lyrics-select" onchange="onSongSelect(this.value)">
+      <option value="">-- 选择歌曲 (노래 선택) --</option>
+    </select>
+    
+    <!-- 가사 표시창 -->
+    <div class="lyrics-display" id="lyricDisplay">
+      <div class="lyrics-empty-msg">请选择歌曲<br>(노래를 선택해 주세요)</div>
+    </div>
+  </div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -264,6 +417,24 @@ let deleteMode=false;
 let initialLoaded=false;
 let filterOnlyFavorite=false;
 
+/* ★ GitHub 설정 ★ */
+const GITHUB_USER = "YOUR_GITHUB_USERNAME";
+const GITHUB_REPO = "YOUR_REPO_NAME";
+
+const SONG_LIST = [
+  {
+    title: "超感 (chaogan)",
+    file: "chaogan.txt",
+    url: `https://raw.githubusercontent.com/seo714/HSK/main/chaogan.txt`
+  },
+  {
+    title: "想见你想见你想见你 (xiangjianni)",
+    file: "xiangjianni.txt",
+    url: `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/xiangjianni.txt`
+  }
+];
+
+// 단어 Firestore 연동
 onSnapshot(colRef,(snapshot)=>{
  words=snapshot.docs.map(d=>({id:d.id,...d.data()}));
  renderTable();
@@ -273,6 +444,47 @@ onSnapshot(colRef,(snapshot)=>{
    initialLoaded=true;
  }
 });
+
+// 페이지 로드 시 셀렉트박스 옵션 채우기
+window.addEventListener("DOMContentLoaded", () => {
+  populateSongSelect();
+});
+
+function populateSongSelect() {
+  const select = document.getElementById("songSelect");
+  select.innerHTML = `<option value="">-- 选择歌曲 (노래 선택) --</option>`;
+  
+  SONG_LIST.forEach((song, index) => {
+    const opt = document.createElement("option");
+    opt.value = index;
+    opt.textContent = song.title;
+    select.appendChild(opt);
+  });
+}
+
+// 노래 선택 시 GitHub Raw URL에서 txt 텍스트 불러오기
+window.onSongSelect = async function(index) {
+  const display = document.getElementById("lyricDisplay");
+  
+  if(index === "" || !SONG_LIST[index]) {
+    display.innerHTML = `<div class="lyrics-empty-msg">请选择歌曲<br>(노래를 선택해 주세요)</div>`;
+    return;
+  }
+  
+  const targetSong = SONG_LIST[index];
+  display.innerText = "가사를 불러오는 중입니다...";
+  
+  try {
+    const res = await fetch(targetSong.url);
+    if(!res.ok) throw new Error("파일을 불러올 수 없습니다.");
+    
+    const textData = await res.text();
+    display.innerText = textData;
+  } catch(e) {
+    console.error(e);
+    display.innerHTML = `<div class="lyrics-empty-msg" style="color:#EF4444;">가사를 불러오지 못했습니다.<br>GitHub ID 및 Repository 주소를 확인해 주세요.</div>`;
+  }
+};
 
 function hideFavoriteColumn(){
  const wrap = document.getElementById("tableWrap");
@@ -343,6 +555,11 @@ window.toggleFavorite=async function(id, currentStatus, event){
  } catch(e) {
    console.error("Favorite Toggle Error:", e);
  }
+};
+
+window.toggleLyricsPanel = function() {
+  const panel = document.getElementById("lyricsPanel");
+  panel.classList.toggle("show");
 };
 
 function renderTable(){

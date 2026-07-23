@@ -2,15 +2,22 @@
 <head>
 <meta charset="UTF-8">
 <title>词汇本</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <script src="https://unpkg.com/pinyin-pro"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard/dist/web/static/pretendard.css">
+
+<!-- SUIT 폰트 웹폰트 CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-api/SUIT/fonts/static/woff2/SUIT.css">
     
 <style>
+/* 모든 요소에 SUIT 폰트 기본 적용 */
+* {
+    font-family: 'SUIT', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
 body{
     margin:0;
-    font-family:"Pretendard","Segoe UI",Arial,sans-serif;
     background:#F8FAFC;
+    -webkit-tap-highlight-color: transparent;
 }
 
 h1{
@@ -97,15 +104,16 @@ h1{
     background:#FECACA;
 }
 
-/* 스크롤 감싸는 영역 : 스크롤 기능 핵심 적용 */
+/* ★ 패드/모바일 드래그 스크롤 전용 속성 강화 ★ */
 .table-wrap{
     width: 100%;
     max-width: 1000px; 
     margin:10px auto 0 auto;
-    overflow-x: auto; /* 가로 스크롤 활성화 */
-    -webkit-overflow-scrolling: touch; /* iOS/아이패드 터치 스크롤 지원 */
+    overflow-x: auto; 
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch; /* iOS 및 iPadOS 최적화 */
+    touch-action: pan-x pan-y; /* 손가락 드래그 터치 동작 방해 해제 */
     white-space: nowrap;
-    scroll-behavior: smooth;
 }
 
 .filter-bar{
@@ -140,7 +148,7 @@ h1{
     border-color:#D97706;
 }
 
-/* 테이블 크기 고정 (즐겨찾기 열 50px + 기본 1000px = 총 1050px) */
+/* 전체 표 너비 1050px 고정 */
 table{
     width:1050px; 
     table-layout:fixed;
@@ -148,7 +156,7 @@ table{
     background:#FFFFFF;
 }
 
-/* 표 안의 첫 번째 '즐겨찾기' 칸 50px 고정 */
+/* 첫 번째 즐겨찾기 열 50px */
 th:nth-child(1),td:nth-child(1){width:50px; padding:14px 0;}  
 th:nth-child(2),td:nth-child(2){width:100px;} /* 顺序 */
 th:nth-child(3),td:nth-child(3){width:290px;} /* 汉字 */
@@ -261,12 +269,11 @@ onSnapshot(colRef,(snapshot)=>{
  renderTable();
  
  if(!initialLoaded){
-   setTimeout(hideFavoriteColumn, 50);
+   setTimeout(hideFavoriteColumn, 100);
    initialLoaded=true;
  }
 });
 
-/* 첫 진입 시 스크롤 위치를 50px 이동시켜 즐겨찾기 열 숨김 */
 function hideFavoriteColumn(){
  const wrap = document.getElementById("tableWrap");
  wrap.scrollLeft = 50;

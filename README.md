@@ -95,22 +95,59 @@ h1{
 }
 
 .table-wrap{
-    width:100%;
-    margin-top:20px;
+    width:1000px; 
+    max-width: 95vw;
+    margin:10px auto 0 auto;
+    overflow-x: auto;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+}
+
+/* 필터 버튼 영역 스타일 */
+.filter-bar{
+    width:1000px;
+    max-width:95vw;
+    margin:15px auto 0 auto;
+    display:flex;
+    justify-content:flex-start;
+}
+
+.fav-filter-btn{
+    width:80px;
+    padding:6px 0;
+    border:1px solid #FCD34D;
+    background:#FEF3C7;
+    color:#D97706;
+    font-size:14px;
+    font-weight:600;
+    border-radius:6px;
+    cursor:pointer;
+    transition:.2s;
+    text-align:center;
+}
+
+.fav-filter-btn:hover{
+    background:#FDE68A;
+}
+
+.fav-filter-btn.active{
+    background:#F59E0B;
+    color:#FFFFFF;
+    border-color:#D97706;
 }
 
 table{
-    width:1000px;
-    margin:0 auto;
+    width:1080px; 
     table-layout:fixed;
     border-collapse:collapse;
     background:#FFFFFF;
 }
 
-th:nth-child(1),td:nth-child(1){width:100px;}
-th:nth-child(2),td:nth-child(2){width:290px;}
-th:nth-child(3),td:nth-child(3){width:290px;}
-th:nth-child(4),td:nth-child(4){width:320px;}
+th:nth-child(1),td:nth-child(1){width:80px;}  /* 收藏 (숨겨진 즐겨찾기) */
+th:nth-child(2),td:nth-child(2){width:100px;} /* 顺序 */
+th:nth-child(3),td:nth-child(3){width:290px;} /* 汉字 */
+th:nth-child(4),td:nth-child(4){width:290px;} /* 意思 */
+th:nth-child(5),td:nth-child(5){width:320px;} /* 拼音 */
 
 th,td{
     border:1px solid #E5E7EB;
@@ -118,6 +155,7 @@ th,td{
     font-size:18px;
     text-align:center;
     white-space:nowrap;
+    box-sizing: border-box;
 }
 
 th{
@@ -136,6 +174,21 @@ tbody tr{
 tbody tr:hover{
     background:#F1F5F9;
 }
+
+.star-btn{
+    cursor:pointer;
+    font-size:20px;
+    color:#D1D5DB;
+    transition:transform 0.1s ease, color 0.1s ease;
+}
+
+.star-btn.active{
+    color:#F59E0B;
+}
+
+.star-btn:hover{
+    transform:scale(1.2);
+}
 </style>
 </head>
 <body>
@@ -153,10 +206,21 @@ tbody tr:hover{
 </div>
 </div>
 
-<div class="table-wrap">
+<!-- 즐겨찾기 필터 버튼 -->
+<div class="filter-bar">
+  <button id="favFilterBtn" class="fav-filter-btn" onclick="toggleFavoriteFilter()">☆ 收藏</button>
+</div>
+
+<div class="table-wrap" id="tableWrap">
 <table>
 <thead>
-<tr><th>顺序</th><th>汉字</th><th>拼音</th><th>意思</th></tr>
+<tr>
+  <th>收藏</th>
+  <th>顺序</th>
+  <th>汉字</th>
+  <th>意思</th>
+  <th>拼音</th>
+</tr>
 </thead>
 <tbody id="wordTable"></tbody>
 </table>
@@ -164,7 +228,7 @@ tbody tr:hover{
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
  apiKey:"AIzaSyC4eVXhqZQUHi5Zfd5eBjHvd5LHC99ueWk",
@@ -181,11 +245,44 @@ const colRef=collection(db,"words");
 
 let words=[];
 let deleteMode=false;
+let initialLoaded=false;
+let filterOnlyFavorite=false;
 
 onSnapshot(colRef,(snapshot)=>{
  words=snapshot.docs.map(d=>({id:d.id,...d.data()}));
  renderTable();
+ 
+ if(!initialLoaded){
+   setTimeout(hideFavoriteColumn, 50);
+   initialLoaded=true;
+ }
 });
+
+function hideFavoriteColumn(){
+ const wrap = document.getElementById("tableWrap");
+ wrap.scrollLeft = 80;
+}
+
+function showFavoriteColumn(){
+ const wrap = document.getElementById("tableWrap");
+ wrap.scrollLeft = 0;
+}
+
+window.toggleFavoriteFilter=function(){
+ filterOnlyFavorite = !filterOnlyFavorite;
+ const btn = document.getElementById("favFilterBtn");
+ 
+ if(filterOnlyFavorite){
+   btn.classList.add("active");
+   btn.innerText = "★ 收藏";
+   showFavoriteColumn();
+ } else {
+   btn.classList.remove("active");
+   btn.innerText = "☆ 收藏";
+ }
+ 
+ renderTable();
+};
 
 window.addWord=async function(){
  const hanja=document.getElementById("hanjaInput").value.trim();
@@ -196,7 +293,7 @@ window.addWord=async function(){
   return;
  }
 
- await addDoc(colRef,{hanja,meaning});
+ await addDoc(colRef,{hanja, meaning, favorite: false});
 
  document.getElementById("hanjaInput").value="";
  document.getElementById("meaningInput").value="";
@@ -227,11 +324,27 @@ window.deleteWord=async function(id){
  await deleteDoc(doc(db,"words",id));
 };
 
+/* 즐겨찾기 상태 변경 (수정완료) */
+window.toggleFavorite=async function(id, currentStatus, event){
+ event.stopPropagation();
+ try {
+   await updateDoc(doc(db, "words", id), {
+    favorite: !currentStatus
+   });
+ } catch(e) {
+   console.error("Favorite Toggle Error:", e);
+ }
+};
+
 function renderTable(){
  const table=document.getElementById("wordTable");
  table.innerHTML="";
 
- words.forEach((word,index)=>{
+ const displayWords = filterOnlyFavorite 
+   ? words.filter(w => w.favorite) 
+   : words;
+
+ displayWords.forEach((word,index)=>{
 
   const row=document.createElement("tr");
 
@@ -246,35 +359,36 @@ function renderTable(){
    }
   }catch(e){}
 
+  const isFav = word.favorite || false;
+
   row.innerHTML=`
-   <td>${index+1}</td>
-   <td>${word.hanja}</td>
-   <td>${pinyin}</td>
-   <td>${word.meaning}</td>
+    <td>
+      <span class="star-btn ${isFav ? 'active' : ''}" 
+            onclick="toggleFavorite('${word.id}', ${isFav}, event)">
+        ${isFav ? '★' : '☆'}
+      </span>
+    </td>
+    <td>${index+1}</td>
+    <td>${word.hanja}</td>
+    <td>${word.meaning}</td>
+    <td>${pinyin}</td>
   `;
 
   row.addEventListener("click", () => {
-
     if (!deleteMode) {
       speakWord(word.hanja);
     }
-
   });
 
   let pressTimer;
 
   row.addEventListener("mousedown", () => {
-
     if (!deleteMode) return;
-
     pressTimer = setTimeout(() => {
-
       if (confirm("删除这个单词吗?")) {
         deleteWord(word.id);
       }
-
     }, 700);
-
   });
 
   row.addEventListener("mouseup", () => {
@@ -286,17 +400,12 @@ function renderTable(){
   });
 
   row.addEventListener("touchstart", () => {
-
     if (!deleteMode) return;
-
     pressTimer = setTimeout(() => {
-
       if (confirm("删除这个单词吗?")) {
         deleteWord(word.id);
       }
-
     }, 700);
-
   });
 
   row.addEventListener("touchend", () => {

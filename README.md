@@ -423,12 +423,12 @@ const GITHUB_REPO = "YOUR_REPO_NAME";
 
 const SONG_LIST = [
   {
-    title: "超感 (chaogan)",
+    title: "超感",
     file: "chaogan.txt",
     url: `https://raw.githubusercontent.com/seo714/HSK/main/chaogan.txt`
   },
   {
-    title: "想见你想见你想见你 (xiangjianni)",
+    title: "想见你想见你想见你",
     file: "xiangjianni.txt",
     url: `https://raw.githubusercontent.com/seo714/HSK/main/xiangjianni.txt`
   }

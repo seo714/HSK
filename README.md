@@ -488,17 +488,17 @@ window.onSongSelect = async function(index) {
   }
   
   const targetSong = SONG_LIST[index];
-  display.innerText = "가사를 불러오는 중입니다...";
+  display.innerText = "正在加载歌词...";
   
   try {
     const res = await fetch(targetSong.url);
-    if(!res.ok) throw new Error("파일을 불러올 수 없습니다.");
+    if(!res.ok) throw new Error("无法获取文件");
     
     const textData = await res.text();
     display.innerText = textData;
   } catch(e) {
     console.error(e);
-    display.innerHTML = `<div class="lyrics-empty-msg" style="color:#EF4444;">가사를 불러오지 못했습니다.<br>GitHub ID 및 Repository 주소를 확인해 주세요.</div>`;
+    display.innerHTML = `<div class="lyrics-empty-msg" style="color:#EF4444;">歌词加载失败<br>请检查 GitHub ID 和 仓库地址</div>`;
   }
 };
 

@@ -434,9 +434,25 @@ const SONG_LIST = [
   }
 ];
 
-// 단어 Firestore 연동
+// 단어 Firestore 연동 (ID 기준 고정 정렬하여 순서 변동 방지)
 onSnapshot(colRef,(snapshot)=>{
- words=snapshot.docs.map(d=>({id:d.id,...d.data()}));
+ const newWords = snapshot.docs.map(d=>({id:d.id,...d.data()}));
+ 
+ if (words.length === 0) {
+   words = newWords;
+ } else {
+   // 기존 배열 순서를 유지하면서 Favorite 상태 및 변경 데이터만 업데이트
+   const wordMap = new Map(newWords.map(w => [w.id, w]));
+   
+   // 기존에 있던 항목 상태 반영
+   words = words.map(w => wordMap.get(w.id) || w).filter(w => wordMap.has(w.id));
+   
+   // 새롭게 추가된 항목은 뒤에 붙임
+   const existingIds = new Set(words.map(w => w.id));
+   const addedWords = newWords.filter(w => !existingIds.has(w.id));
+   words = [...words, ...addedWords];
+ }
+
  renderTable();
  
  if(!initialLoaded){
@@ -452,7 +468,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 function populateSongSelect() {
   const select = document.getElementById("songSelect");
-  select.innerHTML = `<option value="">-- 选择歌曲 (노래 선택) --</option>`;
+  select.innerHTML = `<option value="">-- 选择歌曲 --</option>`;
   
   SONG_LIST.forEach((song, index) => {
     const opt = document.createElement("option");
@@ -467,7 +483,7 @@ window.onSongSelect = async function(index) {
   const display = document.getElementById("lyricDisplay");
   
   if(index === "" || !SONG_LIST[index]) {
-    display.innerHTML = `<div class="lyrics-empty-msg">请选择歌曲<br>(노래를 선택해 주세요)</div>`;
+    display.innerHTML = `<div class="lyrics-empty-msg">请选择歌曲<br></div>`;
     return;
   }
   
